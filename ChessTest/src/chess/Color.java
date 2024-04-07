@@ -1,8 +1,8 @@
 package chess;
 
-import chess.player.BlackPlayer;
-import chess.player.Player;
-import chess.player.WhitePlayer;
+import chess.engine.player.BlackPlayer;
+import chess.engine.player.Player;
+import chess.engine.player.WhitePlayer;
 
 public enum Color
 {
