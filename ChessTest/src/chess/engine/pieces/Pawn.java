@@ -31,7 +31,7 @@ public class Pawn extends Piece
             {
                 legalMoves.add(new Move.MajorPieceRegularMove(board,this,possibleDestinationCoord));
             }
-            else if(currentOffset==16 && this.isFirstMove() && ((BoardData.SECOND_ROW[this.pieceCoord] && this.pieceColor==Color.BLACK) || (BoardData.SEVENTH_ROW[this.pieceCoord] && this.pieceColor==Color.WHITE)))
+            else if(currentOffset==16 && this.isFirstMove() && ((BoardData.SEVENTH_RANK[this.pieceCoord] && this.pieceColor==Color.BLACK) || (BoardData.SECOND_RANK[this.pieceCoord] && this.pieceColor==Color.WHITE)))
             {
                 final int behindPossibleDestinationCoord=this.pieceCoord+(this.pieceColor.getDirection()*8);
                 if(!board.getSquare(possibleDestinationCoord).isOccupied() && !board.getSquare(behindPossibleDestinationCoord).isOccupied())

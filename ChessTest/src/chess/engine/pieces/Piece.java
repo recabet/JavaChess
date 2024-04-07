@@ -160,7 +160,7 @@ public abstract class Piece
             return false;
         }
         final Piece other=(Piece) object;
-        return pieceCoord ==other.getPieceCoord() && pieceType==other.getPieceType()&&pieceColor==other.getPieceColor()&&isFirstMove==other.isFirstMove();
+        return pieceCoord ==other.getPieceCoord() && pieceType==other.getPieceType()&& pieceColor==other.getPieceColor()&&isFirstMove==other.isFirstMove();
 
     }
     public int gethashCode()

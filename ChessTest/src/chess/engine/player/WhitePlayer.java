@@ -53,7 +53,7 @@ public class WhitePlayer extends Player
             if(!(this.board.getSquare(59).isOccupied() && this.board.getSquare(58).isOccupied() &&this.board.getSquare(57).isOccupied()))
             {
                 final Square rookCoord=this.board.getSquare(56);
-                if(rookCoord.isOccupied()&&rookCoord.getPiece().isFirstMove())
+                if(rookCoord.isOccupied()&&rookCoord.getPiece().isFirstMove()&& (Player.calcAttackOnSquare(58, enemyLegalMoves).isEmpty()) && (Player.calcAttackOnSquare(59, enemyLegalMoves).isEmpty() && rookCoord.getPiece().getPieceType().isRook()))
                 {
                     shortCastleMoves.add(new Move.LongCastle(this.board,this.playerKing,58,(Rook)rookCoord.getPiece(),rookCoord.getCoord(),59));
                 }

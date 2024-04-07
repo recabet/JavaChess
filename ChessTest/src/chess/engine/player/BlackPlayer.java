@@ -52,11 +52,12 @@ public class BlackPlayer extends Player
             if (!(this.board.getSquare(1).isOccupied() && this.board.getSquare(3).isOccupied() && this.board.getSquare(2    ).isOccupied()))
             {
                 final Square rookCoord = this.board.getSquare(0);
-                if (rookCoord.isOccupied() && rookCoord.getPiece().isFirstMove())
+                if (rookCoord.isOccupied() && rookCoord.getPiece().isFirstMove()&& (Player.calcAttackOnSquare(2, enemyLegalMoves).isEmpty()) && (Player.calcAttackOnSquare(3, enemyLegalMoves).isEmpty() && rookCoord.getPiece().getPieceType().isRook()))
                 {
                     shortCastleMoves.add(new Move.LongCastle(this.board,this.playerKing,2,(Rook)rookCoord.getPiece(),rookCoord.getCoord(),3));
                 }
             }
+
         }
         return shortCastleMoves;
     }
