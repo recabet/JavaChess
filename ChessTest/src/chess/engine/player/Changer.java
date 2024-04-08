@@ -18,4 +18,7 @@ public class Changer
         return this.moveSt;
     }
 
+    public Board getChangedBoard() {
+        return this.changedBoard;
+    }
 }

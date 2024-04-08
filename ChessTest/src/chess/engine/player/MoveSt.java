@@ -5,7 +5,7 @@ public enum MoveSt
     DONE
             {
                 @Override
-                boolean isDone()
+                public boolean isDone()
                 {
                     return true;
                 }
@@ -13,7 +13,7 @@ public enum MoveSt
     ILLEGAL_MOVE
             {
                 @Override
-                boolean isDone()
+                public boolean isDone()
                 {
                     return false;
                 }
@@ -21,11 +21,11 @@ public enum MoveSt
     IN_CHECK
             {
                 @Override
-                boolean isDone()
+                public boolean isDone()
                 {
                     return false;
                 }
             };
 
-    abstract boolean isDone();
+    public abstract boolean isDone();
 }

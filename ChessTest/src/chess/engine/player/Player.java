@@ -76,8 +76,8 @@ public abstract class Player
         }
         return false;
     }
-
-    private Changer makeMove(final Move move)
+//changed to public
+    public Changer makeMove(final Move move)
     {
         if (!isMoveLegal(move))
         {
@@ -115,7 +115,7 @@ public abstract class Player
     public Changer MakeMove(final Move move)
     {
         return null;
-    }
+    }//why need this?
 
     public abstract Collection<Piece> getActivePieces();
 

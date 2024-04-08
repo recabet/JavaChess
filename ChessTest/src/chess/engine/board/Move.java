@@ -28,6 +28,9 @@ public abstract class Move
     {
         return false;
     }
+    public int getCurrentCoord() { return this.getMovePiece().getPieceCoord(); }
+    public Piece getMovePiece() { return this.movedPiece; }
+    public Piece getColor() { return null; }
     public int hashCode()
     {
         int res=1;
@@ -50,6 +53,7 @@ public abstract class Move
         return   this.getCurrentCoord()==otherMove.getCurrentCoord() && this.getMovedPiece()==otherMove.getMovedPiece();
     }
 
+
     public Board make()
     {
         final Board.Builder builder = new Board.Builder();
@@ -68,10 +72,11 @@ public abstract class Move
         builder.setMoveMaker(this.board.getCurrentPlayer().getEnemy().getColor());
         return builder.build();
     }
-    public int getCurrentCoord()
-    {
-        return this.movedPiece.getPieceCoord();
-    }
+
+//    public int getCurrentCoord()
+//    {
+//        return this.movedPiece.getPieceCoord();
+//    }
 
     public static final class MajorPieceRegularMove extends Move
     {
@@ -211,12 +216,12 @@ public abstract class Move
         {
             for(final Move move : board.getAllLegalMoves())
             {
-                if(move.getCurrentCoord()==currentCoord &&move.getDestinationCoord()==destinationCoord)
+                if(move.getCurrentCoord()==currentCoord && move.getDestinationCoord()==destinationCoord)
                 {
                     return move;
                 }
             }
-            return INVALID_MOVE;
+            throw new RuntimeException("not legal");
         }
     }
     static abstract class Castle extends Move
