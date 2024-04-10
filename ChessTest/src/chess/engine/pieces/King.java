@@ -14,8 +14,9 @@ public class King extends Piece
     private final static int[] PRESET_OFFSET={-9,-8,-7,-1,1,7,8,9};
     public King(final int pieceCoord, final Color pieceColor)
     {
-        super(PieceType.KING,pieceCoord, pieceColor);
+        super(PieceType.KING,pieceCoord, pieceColor, true);
     }
+    public King(final int pieceCoord, final Color pieceColor, final boolean isFirstMove) { super(PieceType.KING,pieceCoord, pieceColor, isFirstMove); }
 
     @Override
     public List<Move> getLegalMoves(Board board)

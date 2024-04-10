@@ -14,7 +14,11 @@ public class Rook extends Piece
     private final static int[] PRESET_VECTOR_COORDS={-8,-1,1,8};
     public Rook(final int pieceCoord, final Color pieceColor)
     {
-        super(PieceType.ROOK,pieceCoord, pieceColor);
+        super(PieceType.ROOK,pieceCoord, pieceColor, true);
+    }
+
+    public Rook(final int pieceCoord, final Color pieceColor, final boolean isFirstMove) {
+        super(PieceType.ROOK,pieceCoord, pieceColor, isFirstMove);
     }
 
     @Override

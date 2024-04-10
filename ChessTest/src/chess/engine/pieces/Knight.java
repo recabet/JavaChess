@@ -13,10 +13,8 @@ public class Knight extends Piece
 {
     private final static int[] PRESET_OFFSET = {-17, -15, -10, -6, 6, 10, 15, 17};
 
-    public Knight(final int pieceCoord, final Color pieceColor)
-    {
-        super(PieceType.KNIGHT,pieceCoord, pieceColor);
-    }
+    public Knight(final int pieceCoord, final Color pieceColor) { super(PieceType.KNIGHT,pieceCoord, pieceColor, true); }
+    public Knight(final int pieceCoord, final Color pieceColor, final boolean isFirstMove) { super(PieceType.KNIGHT,pieceCoord, pieceColor, isFirstMove); }
 
     @Override
     public List<Move> getLegalMoves(final Board board)

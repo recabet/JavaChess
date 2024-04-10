@@ -8,6 +8,7 @@ public abstract class Move
     final Board board;
     final Piece movedPiece;
     final int destinationCoord;
+    final boolean isFirstMove;
     public static final Move  INVALID_MOVE=new InvalidMove();
 
     private Move(final Board board, final Piece movedPiece, final int destinationCoord)
@@ -15,7 +16,16 @@ public abstract class Move
         this.board = board;
         this.movedPiece = movedPiece;
         this.destinationCoord = destinationCoord;
+        this.isFirstMove = movedPiece.isFirstMove();
     }
+
+    private Move(final Board board, final int destinationCoord) {
+        this.board = board;
+        this.destinationCoord = destinationCoord;
+        this.movedPiece = null;
+        this.isFirstMove = false;
+    }
+
     public boolean isAttack()
     {
         return false;
@@ -31,11 +41,13 @@ public abstract class Move
     public int getCurrentCoord() { return this.getMovePiece().getPieceCoord(); }
     public Piece getMovePiece() { return this.movedPiece; }
     public Piece getColor() { return null; }
+
     public int hashCode()
     {
         int res=1;
         res=31*res+this.destinationCoord;
         res=31*res+this.movedPiece.gethashCode();
+        res=31*res+this.movedPiece.getPieceCoord();
         return res;
     }
     @Override
@@ -50,7 +62,8 @@ public abstract class Move
             return false;
         }
         final Move otherMove=(Move) object;
-        return   this.getCurrentCoord()==otherMove.getCurrentCoord() && this.getMovedPiece()==otherMove.getMovedPiece();
+        return   this.getCurrentCoord()==otherMove.getCurrentCoord() && this.getDestinationCoord()==otherMove.getDestinationCoord()
+                 && this.getMovedPiece().equals(otherMove.getMovedPiece());
     }
 
 
@@ -83,6 +96,14 @@ public abstract class Move
         public MajorPieceRegularMove(Board board, Piece movedPiece, int destinationCoord)
         {
             super(board, movedPiece, destinationCoord);
+        }
+        @Override
+        public boolean equals(final Object other) {
+            return this == other || other instanceof MajorPieceRegularMove && super.equals(other);
+        }
+        @Override
+        public String toString() {
+            return movedPiece.getPieceType().toString() + BoardData.getPositionAtCoord(this.destinationCoord);
         }
 
     }
@@ -150,7 +171,7 @@ public abstract class Move
         }
     }
 
-    public final class PawnJump extends Move
+    public static final class PawnJump extends Move
     {
         public PawnJump(Board board, Piece movedPiece, int destinationCoord)
         {
@@ -176,7 +197,10 @@ public abstract class Move
             builder.setEnPassent(movedPawn);
             builder.setMoveMaker(this.board.getCurrentPlayer().getEnemy().getColor());
             return builder.build();
-
+        }
+        @Override
+        public String toString() {
+            return BoardData.getPositionAtCoord(this.destinationCoord);
         }
     }
     public static class EnPassent extends MinorPieceAttackMove
@@ -196,7 +220,7 @@ public abstract class Move
     {
         private InvalidMove()
         {
-            super(null,null,-1);
+            super(null,-1);
         }
         @Override
         public Board make()
@@ -221,7 +245,8 @@ public abstract class Move
                     return move;
                 }
             }
-            throw new RuntimeException("not legal");
+            return INVALID_MOVE;
+            //throw new RuntimeException("not legal");
         }
     }
     static abstract class Castle extends Move

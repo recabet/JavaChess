@@ -11,10 +11,9 @@ import java.util.List;
 public class Bishop extends Piece
 {
     private final static int[] PRESET_VECTOR_COORDS={-9,-7,7,9};
-    public Bishop(final int pieceCoord,final  Color pieceColor)
-    {
-        super(PieceType.BISHOP,pieceCoord, pieceColor);
-    }
+    public Bishop(final int pieceCoord,final  Color pieceColor) { super(PieceType.BISHOP,pieceCoord, pieceColor, true); }
+    public Bishop(final int pieceCoord,final  Color pieceColor, final boolean isFirstMove) { super(PieceType.BISHOP,pieceCoord, pieceColor, isFirstMove); }
+
     @Override
     public List<Move> getLegalMoves(final Board board)
     {

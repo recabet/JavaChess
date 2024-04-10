@@ -14,8 +14,9 @@ public class Queen extends Piece
     private final static int[] PRESET_VECTOR_COORDS={-9,-8,-7,-1,1,7,8,9};
     public Queen(final int pieceCoord, final Color pieceColor)
     {
-        super(PieceType.QUEEN,pieceCoord, pieceColor);
+        super(PieceType.QUEEN,pieceCoord, pieceColor, true);
     }
+    public Queen(final int pieceCoord, final Color pieceColor, final boolean isFirstMove) { super(PieceType.QUEEN,pieceCoord, pieceColor, isFirstMove); }
 
     @Override
     public List<Move> getLegalMoves(final Board board)

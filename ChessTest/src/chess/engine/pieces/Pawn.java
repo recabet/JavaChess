@@ -13,8 +13,9 @@ public class Pawn extends Piece
     private final static int[] PRESET_OFFSET={7,8,9,16};
     public Pawn(final int pieceCoord,final  Color pieceColor)
     {
-        super(PieceType.PAWN,pieceCoord, pieceColor);
+        super(PieceType.PAWN,pieceCoord, pieceColor, true);
     }
+    public Pawn(final int pieceCoord,final  Color pieceColor, final boolean isFirstMove) { super(PieceType.PAWN,pieceCoord, pieceColor, isFirstMove); }
 
     @Override
     public List<Move> getLegalMoves(Board board)
@@ -36,7 +37,7 @@ public class Pawn extends Piece
                 final int behindPossibleDestinationCoord=this.pieceCoord+(this.pieceColor.getDirection()*8);
                 if(!board.getSquare(possibleDestinationCoord).isOccupied() && !board.getSquare(behindPossibleDestinationCoord).isOccupied())
                 {
-                    legalMoves.add(new Move.MajorPieceRegularMove(board,this,possibleDestinationCoord));
+                    legalMoves.add(new Move.PawnJump(board,this,possibleDestinationCoord));
                 }
 
             }
@@ -47,7 +48,7 @@ public class Pawn extends Piece
                     final Piece pieceAtDestination=board.getSquare(possibleDestinationCoord).getPiece();
                     if(this.pieceColor!=pieceAtDestination.pieceColor)
                     {
-                        legalMoves.add(new Move.MajorPieceRegularMove(board,this,possibleDestinationCoord));
+                        legalMoves.add(new Move.AttackMove(board,this, pieceAtDestination,possibleDestinationCoord));
                     }
                 }
             }
@@ -58,7 +59,7 @@ public class Pawn extends Piece
                     final Piece pieceAtDestination=board.getSquare(possibleDestinationCoord).getPiece();
                     if(this.pieceColor!=pieceAtDestination.pieceColor)
                     {
-                        legalMoves.add(new Move.MajorPieceRegularMove(board,this,possibleDestinationCoord));
+                        legalMoves.add(new Move.AttackMove(board,this,pieceAtDestination,possibleDestinationCoord));
                     }
                 }
             }
