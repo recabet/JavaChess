@@ -50,8 +50,11 @@ public class TakenPiecesPanel extends JPanel{
                 if (takenPiece.getPieceColor().isWhite()) {
                     wTakenPieces.add(takenPiece);
                 }
-                else {
+                else if (takenPiece.getPieceColor().isBlack()){
                     bTakenPieces.add(takenPiece);
+                }
+                else {
+                    throw new RuntimeException("Wouldn't reach there!");
                 }
             }
         }
@@ -72,9 +75,12 @@ public class TakenPiecesPanel extends JPanel{
 
         for (final Piece takenPiece : wTakenPieces) {
             try {
-                final BufferedImage image = ImageIO.read(new File("images/simple/" + takenPiece.getPieceColor()));
-                final ImageIcon imageIcon = new ImageIcon(image);
-                final JLabel imageLabel = new JLabel();
+                final BufferedImage image = ImageIO.read(new File("images/simple/"
+                        + takenPiece.getPieceColor().toString().substring(0, 1) + "" + takenPiece.toString()
+                        + ".gif"));
+                final ImageIcon ic = new ImageIcon(image);
+                final JLabel imageLabel = new JLabel(new ImageIcon(ic.getImage().getScaledInstance(
+                        ic.getIconWidth() - 15, ic.getIconWidth() - 15, Image.SCALE_SMOOTH)));
                 this.southPanel.add(imageLabel);
             } catch (IOException e) {
                 throw new RuntimeException(e);
@@ -83,9 +89,12 @@ public class TakenPiecesPanel extends JPanel{
 
         for (final Piece takenPiece : bTakenPieces) {
             try {
-                final BufferedImage image = ImageIO.read(new File("images/simple/" + takenPiece.getPieceColor()));
-                final ImageIcon imageIcon = new ImageIcon(image);
-                final JLabel imageLabel = new JLabel();
+                final BufferedImage image = ImageIO.read(new File("images/simple/"
+                        + takenPiece.getPieceColor().toString().substring(0, 1) + "" + takenPiece.toString()
+                        + ".gif"));
+                final ImageIcon ic = new ImageIcon(image);
+                final JLabel imageLabel = new JLabel(new ImageIcon(ic.getImage().getScaledInstance(
+                        ic.getIconWidth() - 15, ic.getIconWidth() - 15, Image.SCALE_SMOOTH)));
                 this.southPanel.add(imageLabel);
             } catch (IOException e) {
                 throw new RuntimeException(e);

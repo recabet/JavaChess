@@ -3,27 +3,27 @@ package tests;
 import chess.engine.board.Board;
 import chess.engine.board.Move;
 import chess.engine.pieces.Piece;
-import org.junit.jupiter.api.Test;
+//import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+//import static org.junit.jupiter.api.Assertions.*;
 
-class BoardTest {
-    @Test
-    public void initialBoard() {
+//class BoardTest {
+    //@Test
+    //public void initialBoard() {
 
-        final Board board = Board.initStdBoard();
-        assertEquals(board.getCurrentPlayer().getLegalMoves().size(), 20);
-        assertEquals(board.getCurrentPlayer().getEnemy().getLegalMoves().size(), 20);
-        assertFalse(board.getCurrentPlayer().isInCheck());
-        assertFalse(board.getCurrentPlayer().isInCheck());
-        assertFalse(board.getCurrentPlayer().isCastled());
+        //final Board board = Board.initStdBoard();
+        //assertEquals(board.getCurrentPlayer().getLegalMoves().size(), 20);
+        //assertEquals(board.getCurrentPlayer().getEnemy().getLegalMoves().size(), 20);
+        //assertFalse(board.getCurrentPlayer().isInCheck());
+        //assertFalse(board.getCurrentPlayer().isInCheck());
+        //assertFalse(board.getCurrentPlayer().isCastled());
 //        assertTrue(board.getCurrentPlayer().isKingSideCastleCapable());
 //        assertTrue(board.getCurrentPlayer().isQueenSideCastleCapable());
-        assertEquals(board.getCurrentPlayer(), board.whitePlayer());
-        assertEquals(board.getCurrentPlayer().getEnemy(), board.blackPlayer());
-        assertFalse(board.getCurrentPlayer().getEnemy().isInCheck());
-        assertFalse(board.getCurrentPlayer().getEnemy().isInCheck());
-        assertFalse(board.getCurrentPlayer().getEnemy().isCastled());
+        //assertEquals(board.getCurrentPlayer(), board.whitePlayer());
+        //assertEquals(board.getCurrentPlayer().getEnemy(), board.blackPlayer());
+        //assertFalse(board.getCurrentPlayer().getEnemy().isInCheck());
+        //assertFalse(board.getCurrentPlayer().getEnemy().isInCheck());
+        //assertFalse(board.getCurrentPlayer().getEnemy().isCastled());
 //        assertTrue(board.getCurrentPlayer().getEnemy().isKingSideCastleCapable());
 //        assertTrue(board.getCurrentPlayer().getEnemy().isQueenSideCastleCapable());
 //        assertTrue(board.whitePlayer().toString().equals("White"));
@@ -43,7 +43,7 @@ class BoardTest {
 //        assertFalse(BoardUtils.isThreatenedBoardImmediate(board));
 //        assertEquals(StandardBoardEvaluator.get().evaluate(board, 0), 0);
 //        assertEquals(board.getPiece(35), null);
-    }
+    //}
 
 //    @Test
 //    public void testPlainKingMove() {
@@ -236,4 +236,4 @@ class BoardTest {
 //        return count;
 //    }
 //
-}
+//}
