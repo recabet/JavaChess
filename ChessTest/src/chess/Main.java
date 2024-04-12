@@ -1,3 +1,4 @@
+
 package chess;
 
 import chess.engine.board.Board;
@@ -10,9 +11,7 @@ public class Main
 {
     public static void main(String[]args) throws IOException {
         Board board=Board.initStdBoard();
-        System.out.println(board);
+        System.out.println(board);   // debugging purposes
         Table table=new Table();
-
     }
-
 }

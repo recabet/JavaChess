@@ -6,6 +6,7 @@ import chess.engine.pieces.*;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 public abstract class Player
@@ -15,13 +16,13 @@ public abstract class Player
     protected final Collection<Move> legalMoves;
     private final boolean isInCheck;
 
-    Player(final Board board, final Collection<Move> legalMoves, final Collection<Move> enemyMoves)
+    Player(final Board board, final Collection<Move> playerMoves, final Collection<Move> enemyMoves)
     {
         this.board = board;
         this.playerKing = createKing();
-        this.legalMoves=new ArrayList<>(legalMoves);
-        this.legalMoves.addAll(calcCastle(legalMoves,enemyMoves));
         this.isInCheck = !Player.calcAttackOnSquare(this.playerKing.getPieceCoord(), enemyMoves).isEmpty();
+        playerMoves.addAll(calcCastle(playerMoves, enemyMoves));
+        this.legalMoves = Collections.unmodifiableCollection(playerMoves);
     }
 
     public static Collection<Move> calcAttackOnSquare(int pieceCoord, Collection<Move> moves)
@@ -60,9 +61,7 @@ public abstract class Player
     }
 
     public boolean isMated()
-    {
-        return this.isInCheck && !hasEscape();
-    }
+    { return this.isInCheck && !hasEscape(); }
 
     private boolean hasEscape()
     {
@@ -102,10 +101,7 @@ public abstract class Player
         return this.playerKing;
     }
 
-    public boolean isCastled()
-    {
-        return false;
-    }
+    public boolean isCastled() { return false; }
 
     public Collection<Move> getLegalMoves()
     {
@@ -123,6 +119,5 @@ public abstract class Player
 
     public abstract Player getEnemy();
     protected abstract Collection<Move> calcCastle(Collection<Move> playerLegalMoves,Collection<Move> enemyLegalMoves);
-
 
 }

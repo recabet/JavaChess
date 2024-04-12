@@ -50,11 +50,8 @@ public class TakenPiecesPanel extends JPanel{
                 if (takenPiece.getPieceColor().isWhite()) {
                     wTakenPieces.add(takenPiece);
                 }
-                else if (takenPiece.getPieceColor().isBlack()){
-                    bTakenPieces.add(takenPiece);
-                }
                 else {
-                    throw new RuntimeException("Wouldn't reach there!");
+                    bTakenPieces.add(takenPiece);
                 }
             }
         }
