@@ -15,6 +15,7 @@ public class Board
     private final WhitePlayer whitePlayer;
     private final BlackPlayer blackPlayer;
     private final Player currentPlayer;
+    private final Pawn enPassantPawn;
 
     private Board(Builder builder)
     {
@@ -26,6 +27,7 @@ public class Board
         this.whitePlayer=new WhitePlayer(this,legalWhiteStdLegalMoves,legalBlackStdLegalMoves);
         this.blackPlayer=new BlackPlayer(this,legalBlackStdLegalMoves,legalWhiteStdLegalMoves);
         this.currentPlayer=builder.MoveMaker.selectPlayer(this.whitePlayer,this.blackPlayer);
+        this.enPassantPawn= builder.enPassentPawn;
     }
 
     @Override
@@ -159,6 +161,10 @@ public class Board
         return allLegalMoves;
     }
 
+    public Pawn getenPassantPawn() {
+        return this.enPassantPawn;
+    }
+
     public static class Builder
     {
         Map<Integer, Piece> initialBoard;
@@ -190,7 +196,7 @@ public class Board
 
         public void setEnPassent(Pawn movedPawn)
         {
-
+            this.enPassentPawn=movedPawn;
         }
     }
 }

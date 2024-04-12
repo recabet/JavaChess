@@ -42,7 +42,7 @@ public class Bishop extends Piece
                         final Color pieceColor = pieceAtDestination.getPieceColor();
                         if (this.pieceColor != pieceColor)
                         {
-                            legalMoves.add(new Move.AttackMove(board,this,pieceAtDestination,possibleDestinationCoord));
+                            legalMoves.add(new Move.MajorPieceAttackMove(board,this,pieceAtDestination,possibleDestinationCoord));
                         }
                         break;
                     }

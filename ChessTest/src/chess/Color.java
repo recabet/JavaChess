@@ -1,5 +1,6 @@
 package chess;
 
+import chess.engine.board.BoardData;
 import chess.engine.player.BlackPlayer;
 import chess.engine.player.Player;
 import chess.engine.player.WhitePlayer;
@@ -23,6 +24,15 @@ public enum Color
         public boolean isBlack()
         {
             return false;
+        }
+
+        @Override
+        public int getOppositeDirection()
+        { return 1;}
+
+        @Override
+        public boolean isPawnPromotionSquare(int squareId) {
+            return BoardData.EIGHTH_RANK[squareId];
         }
 
         @Override
@@ -50,6 +60,14 @@ public enum Color
         {
             return true;
         }
+        @Override
+        public int getOppositeDirection()
+        { return -1;}
+
+        @Override
+        public boolean isPawnPromotionSquare(int squareId) {
+            return BoardData.FIRST_RANK[squareId];
+        }
 
         @Override
         public Player selectPlayer(WhitePlayer whitePlayer, BlackPlayer blackPlayer)
@@ -64,5 +82,7 @@ public enum Color
     public abstract boolean isBlack();
 
     public abstract Player selectPlayer(WhitePlayer whitePlayer, BlackPlayer blackPlayer);
+    public abstract int getOppositeDirection();
+    public abstract boolean isPawnPromotionSquare(int squareId);
 
 }

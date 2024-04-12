@@ -30,7 +30,13 @@ public class Pawn extends Piece
             }
             if(currentOffset==8 && !board.getSquare(possibleDestinationCoord).isOccupied())
             {
-                legalMoves.add(new Move.MajorPieceRegularMove(board,this,possibleDestinationCoord));
+                if(this.pieceColor.isPawnPromotionSquare(possibleDestinationCoord))
+                {
+                    legalMoves.add(new Move.PawnPromotion(new Move.MinorPieceRegularMove(board, this, possibleDestinationCoord)));
+                }
+                else {
+                    legalMoves.add(new Move.MinorPieceRegularMove(board,this,possibleDestinationCoord));
+                }
             }
             else if(currentOffset==16 && this.isFirstMove() && ((BoardData.SEVENTH_RANK[this.pieceCoord] && this.pieceColor==Color.BLACK) || (BoardData.SECOND_RANK[this.pieceCoord] && this.pieceColor==Color.WHITE)))
             {
@@ -48,7 +54,24 @@ public class Pawn extends Piece
                     final Piece pieceAtDestination=board.getSquare(possibleDestinationCoord).getPiece();
                     if(this.pieceColor!=pieceAtDestination.pieceColor)
                     {
-                        legalMoves.add(new Move.AttackMove(board,this, pieceAtDestination,possibleDestinationCoord));
+                        if(this.pieceColor.isPawnPromotionSquare(possibleDestinationCoord))
+                        {
+                            legalMoves.add(new Move.PawnPromotion(new Move.MinorPieceAttackMove(board, this,pieceAtDestination, possibleDestinationCoord)));
+                        }
+                        else {
+                            legalMoves.add(new Move.MinorPieceAttackMove(board,this,pieceAtDestination, possibleDestinationCoord));
+                        }
+                    }
+                    else if(board.getenPassantPawn()!=null)
+                    {
+                        if (board.getenPassantPawn().getPieceCoord()==(this.getPieceCoord()+(this.pieceColor.getDirection())))//if en passant piece is next to opposite color pawn
+                        {
+                            final Piece pieceOnCandidate=board.getenPassantPawn();
+                            if(this.pieceColor!=pieceOnCandidate.pieceColor)
+                            {
+                                legalMoves.add(new Move.EnPassent(board, this, pieceOnCandidate, possibleDestinationCoord));
+                            }
+                        }
                     }
                 }
             }
@@ -59,7 +82,24 @@ public class Pawn extends Piece
                     final Piece pieceAtDestination=board.getSquare(possibleDestinationCoord).getPiece();
                     if(this.pieceColor!=pieceAtDestination.pieceColor)
                     {
-                        legalMoves.add(new Move.AttackMove(board,this,pieceAtDestination,possibleDestinationCoord));
+                        if(this.pieceColor.isPawnPromotionSquare(possibleDestinationCoord))
+                        {
+                            legalMoves.add(new Move.PawnPromotion(new Move.MinorPieceAttackMove(board, this,pieceAtDestination, possibleDestinationCoord)));
+                        }
+                        else {
+                            legalMoves.add(new Move.MinorPieceAttackMove(board,this,pieceAtDestination, possibleDestinationCoord));
+                        }
+                    }
+                }
+                else if(board.getenPassantPawn()!=null)
+                {
+                    if (board.getenPassantPawn().getPieceCoord()==(this.getPieceCoord()-(this.pieceColor.getDirection())))//if en passant piece is next to opposite color pawn
+                    {
+                        final Piece pieceOnCandidate=board.getenPassantPawn();
+                        if(this.pieceColor!=pieceOnCandidate.pieceColor)
+                        {
+                            legalMoves.add(new Move.EnPassent(board, this, pieceOnCandidate, possibleDestinationCoord));
+                        }
                     }
                 }
             }
@@ -77,5 +117,9 @@ public class Pawn extends Piece
     public String toString()
     {
         return PieceType.PAWN.toString();
+    }
+    public Piece getPromotionPiece()
+    {
+        return new Queen(this.pieceCoord,this.pieceColor, false);
     }
 }
