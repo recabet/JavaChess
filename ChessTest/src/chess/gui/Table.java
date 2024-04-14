@@ -1,11 +1,15 @@
+/**
+ * The Table class represents the graphical user interface (GUI) for a chess game.
+ * It includes the game frame, board panel, history panel, and taken pieces panel.
+ */
 package chess.gui;
-import chess.engine.board.Board;
-import chess.engine.board.BoardData;
-import chess.engine.board.Move;
-import chess.engine.board.Square;
-import chess.engine.pieces.Piece;
-import chess.engine.player.Changer;
-import chess.engine.player.Player;
+import chess.logic.board.Board;
+import chess.logic.board.BoardData;
+import chess.logic.board.Move;
+import chess.logic.board.Square;
+import chess.logic.pieces.Piece;
+import chess.logic.player.Changer;
+import chess.logic.player.Player;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -23,27 +27,34 @@ import java.util.Collections;
 import java.util.List;
 
 import static javax.swing.SwingUtilities.*;
-
+/**
+ * Represents the graphical user interface (GUI) for a chess game.
+ */
 public class Table {
-    private final JFrame gameFrame;
-    private final HistoryPanel gameHistoryPanel;
-    private final TakenPiecesPanel takenPiecesPanel;
-    private BoardPanel boardPanel;
-    private final Movelog moveLog;
-    private Board chessBoard;
-    private static Dimension FRAME_DIMENSION=new Dimension(600,600);
-    private static Dimension PANEL_BOARD_DIMENSION=new Dimension(400,350);
-    private static Dimension PANEL_SQUARE_DIMENSION=new Dimension(10,10);
-    public final Color lightTileColor = Color.decode("#FFFACD");
-    public final Color darkTileColor = Color.decode("#593E1A");
-    private String pieceIconPath="images/fancy/";
-    private Square sourceSquare;
-    private Square destinationSquare;
-    private Piece humanMovedPiece;
-    private BoardDirection boardDirection;
+    private final JFrame gameFrame;// The main frame of the game
+    private final HistoryPanel gameHistoryPanel;// Panel to display game history
+    private final TakenPiecesPanel takenPiecesPanel;// Panel to display taken pieces
+    private BoardPanel boardPanel;// Panel to display the chess board
+    private final Movelog moveLog;// Records the moves made in the game
+    private Board chessBoard;// Represents the current state of the chess board
+    private static Dimension FRAME_DIMENSION=new Dimension(600,600);// Dimension of the game frame
+    private static Dimension PANEL_BOARD_DIMENSION=new Dimension(400,350);// Dimension of the board panel
+    private static Dimension PANEL_SQUARE_DIMENSION=new Dimension(10,10);// Dimension of each square on the board
+    public final Color lightTileColor = Color.decode("#FFFACD");// Color of light tiles on the board
+    public final Color darkTileColor = Color.decode("#0e8080");// Color of dark tiles on the board
+    private String pieceIconPath="images/fancy/";// Path to the directory containing piece icons
+    private Square sourceSquare;// The source square of a move
+    private Square destinationSquare;// The destination square of a move
+    private Piece humanMovedPiece;// The piece moved by the human player
+    private BoardDirection boardDirection; // Direction of the board (normal or flipped)
 
-    private boolean highlightLegals;
+    private boolean highlightLegals;// Indicates whether legal moves should be highlighted
 
+    /**
+     * Constructs a new Table object and initializes the game GUI.
+     *
+     * @throws IOException if an error occurs while loading resources
+     */
     public Table() throws IOException {
         this.gameFrame=new JFrame("Java Chess");
         this.gameFrame.setLayout(new BorderLayout());
@@ -62,7 +73,11 @@ public class Table {
         this.gameFrame.add(this.gameHistoryPanel, BorderLayout.EAST);
         this.gameFrame.setVisible(true);
     }
-    // Creates JMenuBar and adds JMenu using addFileMenu method
+    /**
+     * Constructs the menu bar for the game.
+     *
+     * @return the constructed JMenuBar
+     */
     private JMenuBar constructJMenu()
     {
         final JMenuBar menuBar=new JMenuBar();
@@ -71,19 +86,15 @@ public class Table {
         menuBar.add(initPreferencesMenu());
         return menuBar;
     }
-    //Creates Menu named "File" and Menu item.When clicking item, it prints something.
+    /**
+     * Adds a "File" menu to the menu bar with associated menu items.
+     *
+     * @return the constructed JMenu
+     */
     public static JMenu addFileMenu()
     {
         final JMenu fileMenu=new JMenu("File");
 
-        final JMenuItem openPNG =new JMenuItem("Load PNG file");
-        openPNG.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                System.out.println("open up pgn file!");
-            }
-        });
-        fileMenu.add(openPNG);
         final JMenuItem exit=new JMenuItem("Exit");
         fileMenu.add(exit);
         exit.addActionListener(new ActionListener() {
@@ -95,11 +106,16 @@ public class Table {
         return fileMenu;
 
     }
-
+    /**
+     * Adds a "File" menu to the menu bar with associated menu items.
+     *
+     * @return the constructed JMenu
+     */
     private JMenu initPreferencesMenu()
     {
         final JMenu preferencesMenu = new JMenu("Preferences");
         final JMenuItem boardFlipMenuItem = new JMenuItem("Flip the Board");
+        // Menu item for flipping the board
         boardFlipMenuItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -110,6 +126,7 @@ public class Table {
         preferencesMenu.add(boardFlipMenuItem);
 
         preferencesMenu.addSeparator();
+        // Checkbox item for toggling highlighting of legal moves
         final JCheckBoxMenuItem highlighterCheckbox = new JCheckBoxMenuItem("Highlight legal moves", false);
         highlighterCheckbox.addActionListener(new ActionListener() {
             @Override
@@ -121,7 +138,9 @@ public class Table {
 
         return preferencesMenu;
     }
-
+    /**
+     * Enum representing the direction of the chess board.
+     */
     public enum BoardDirection
     {
         NORMAL {
@@ -147,10 +166,17 @@ public class Table {
         abstract List<SquarePanel> traverse(final List<SquarePanel> boardSquares);
         abstract BoardDirection opposite();
     }
-    //Defining two classes for board and tile
+    /**
+     * Represents the panel for displaying the chess board.
+     */
     private class BoardPanel extends Panel
     {
-        final List<SquarePanel> squarePanels;
+        final List<SquarePanel> squarePanels;// List of square panels representing the board squares
+        /**
+         * Constructs a new BoardPanel.
+         *
+         * @throws IOException if an error occurs while loading resources
+         */
         BoardPanel() throws IOException {
             super(new GridLayout(8,8));
             squarePanels=new ArrayList<>();
@@ -163,7 +189,11 @@ public class Table {
                 validate();
             }
         }
-
+        /**
+         * Draws the chess board based on the provided board state.
+         *
+         * @param chessBoard the current state of the chess board
+         */
         public void drawBoard(Board chessBoard) {
             removeAll();
             for(final SquarePanel squarePanel : boardDirection.traverse(squarePanels))
@@ -175,37 +205,77 @@ public class Table {
             repaint();
         }
     }
-
+    /**
+     * Represents the move log of the game.
+     */
     public static class Movelog {
-        private final List<Move> moves;
+        private final List<Move> moves;// List of moves made in the game
 
         Movelog() {
             this.moves = new ArrayList<>();
         }
+        /**
+         * Gets the list of moves in the move log.
+         *
+         * @return the list of moves
+         */
         public List<Move> getMoves() {
             return this.moves;
         }
+        /**
+         * Adds a move to the move log.
+         *
+         * @param move the move to add
+         */
         public void addMove(final Move move) {
             this.moves.add(move);
         }
+        /**
+         * Gets the number of moves in the move log.
+         *
+         * @return the number of moves
+         */
         public int size() {
             return this.moves.size();
         }
+        /**
+         * Clears all moves from the move log.
+         */
         public void clear() {
             this.moves.clear();
         }
+        /**
+         * Removes a move from the move log at the specified index.
+         *
+         * @param index the index of the move to remove
+         * @return the removed move
+         */
         public Move removeMove(int index) {
             return this.moves.remove(index);
         }
+        /**
+         * Removes a specific move from the move log.
+         *
+         * @param move the move to remove
+         * @return true if the move was successfully removed, false otherwise
+         */
         public boolean removeMove(final Move move) {
             return this.moves.remove(move);
         }
     }
-
+    /**
+     * Represents a square (a tile) on the chess board.
+     */
     private class SquarePanel extends Panel
     {
         private final int SquareId;
-
+        /**
+         * Constructs a new SquarePanel.
+         *
+         * @param boardPanel the parent board panel
+         * @param squareId   the ID of the square
+         * @throws IOException if an error occurs while loading resources
+         */
         SquarePanel(BoardPanel boardPanel, int squareId) throws IOException {
             super(new GridLayout());
             SquareId=squareId;
@@ -214,6 +284,7 @@ public class Table {
             addMouseListener(new MouseListener() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
+                    // Mouse event handlers
                     if(isRightMouseButton(e))
                     {
                         sourceSquare=null;
@@ -243,7 +314,6 @@ public class Table {
                             destinationSquare = null;
                             humanMovedPiece = null;
                         }
-                        //Why we need this?
                         SwingUtilities.invokeLater(new Runnable() {
                             @Override
                             public void run() {
@@ -277,8 +347,13 @@ public class Table {
                 }
             });
             assignSquareColor();
-            validate();//why we use it?
+            validate(); // Validates the layout of the panel
         }
+        /**
+         * Assigns the piece to the square based on the current board state.
+         *
+         * @param board the current state of the chess board
+         */
         private void assignSquarePiece(final Board board) {
             this.removeAll();
             if(board.getSquare(this.SquareId).isOccupied()) {
@@ -294,7 +369,11 @@ public class Table {
             }
 
         }
-
+        /**
+         * Highlights legal moves on the square.
+         *
+         * @param board the current state of the chess board
+         */
         private void highlightLegalMoves(final Board board)
         {
             if (highlightLegals) {
@@ -310,7 +389,12 @@ public class Table {
                 }
             }
         }
-
+        /**
+         * Gets the legal moves of the piece on the square.
+         *
+         * @param board the current state of the chess board
+         * @return a collection of legal moves
+         */
         private Collection<Move> LegalMovesOfPiece(final Board board)
         {
             if (humanMovedPiece != null && humanMovedPiece.getPieceColor() == board.getCurrentPlayer().getColor()) {
@@ -318,7 +402,9 @@ public class Table {
             }
             return Collections.emptyList();
         }
-
+        /**
+         * Assigns the color to the square based on its position.
+         */
         private void assignSquareColor() {
             if (BoardData.EIGHTH_RANK[this.SquareId] ||
                     BoardData.SIXTH_RANK[this.SquareId] ||
@@ -341,7 +427,11 @@ public class Table {
             }
 
         }
-
+        /**
+         * Draws the square on the chess board.
+         *
+         * @param chessBoard the current state of the chess board
+         */
         public void drawSquare(Board chessBoard) {
             assignSquareColor();
             assignSquarePiece(chessBoard);

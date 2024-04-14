@@ -1,7 +1,7 @@
 package chess.gui;
 
-import chess.engine.board.Move;
-import chess.engine.pieces.Piece;
+import chess.logic.board.Move;
+import chess.logic.pieces.Piece;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -15,7 +15,10 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-public class TakenPiecesPanel extends JPanel{
+/**
+ * Panel to display the taken pieces.
+ */
+public class TakenPiecesPanel extends JPanel {
 
     private final JPanel northPanel;
     private final JPanel southPanel;
@@ -24,6 +27,9 @@ public class TakenPiecesPanel extends JPanel{
     private static final Dimension TAKEN_PIECES_DIMENSION = new Dimension(40, 80);
     private static final EtchedBorder PANEL_BORDER = new EtchedBorder(EtchedBorder.RAISED);
 
+    /**
+     * Constructs a TakenPiecesPanel.
+     */
     public TakenPiecesPanel() {
         super(new BorderLayout());
         this.setBackground(PANEL_COLOR);
@@ -37,39 +43,43 @@ public class TakenPiecesPanel extends JPanel{
         setPreferredSize(TAKEN_PIECES_DIMENSION);
     }
 
+    /**
+     * Updates the taken pieces panel based on the move log.
+     *
+     * @param movelog The move log.
+     */
+    /**
+     * Updates the TakenPiecesPanel with the pieces that have been taken during the game.
+     *
+     * @param movelog The MoveLog containing all the moves made in the game.
+     */
     public void redo(final Table.Movelog movelog) {
         this.southPanel.removeAll();
         this.northPanel.removeAll();
 
+        // Lists to store taken pieces
         final List<Piece> wTakenPieces = new ArrayList<>();
         final List<Piece> bTakenPieces = new ArrayList<>();
 
-        for (final Move move: movelog.getMoves()) {
+        // Iterate through the moves in the MoveLog
+        for (final Move move : movelog.getMoves()) {
+            // Check if the move is an attack
             if (move.isAttack()) {
                 final Piece takenPiece = move.getAttackedPiece();
+                // Add the taken piece to the appropriate list based on its color
                 if (takenPiece.getPieceColor().isWhite()) {
                     wTakenPieces.add(takenPiece);
-                }
-                else {
+                } else {
                     bTakenPieces.add(takenPiece);
                 }
             }
         }
 
-        Collections.sort(wTakenPieces, new Comparator<Piece>() {
-            @Override
-            public int compare(Piece o1, Piece o2) {
-                return Integer.compare(o1.getPieceValue(), o2.getPieceValue());
-            }
-        });
+        // Sort the taken pieces based on their values
+        Collections.sort(wTakenPieces, Comparator.comparingInt(Piece::getPieceValue));
+        Collections.sort(bTakenPieces, Comparator.comparingInt(Piece::getPieceValue));
 
-        Collections.sort(bTakenPieces, new Comparator<Piece>() {
-            @Override
-            public int compare(Piece o1, Piece o2) {
-                return Integer.compare(o1.getPieceValue(), o2.getPieceValue());
-            }
-        });
-
+        // Add images of the taken white pieces to the south panel
         for (final Piece takenPiece : wTakenPieces) {
             try {
                 final BufferedImage image = ImageIO.read(new File("images/simple/"
@@ -84,6 +94,7 @@ public class TakenPiecesPanel extends JPanel{
             }
         }
 
+        // Add images of the taken black pieces to the south panel
         for (final Piece takenPiece : bTakenPieces) {
             try {
                 final BufferedImage image = ImageIO.read(new File("images/simple/"
@@ -100,4 +111,5 @@ public class TakenPiecesPanel extends JPanel{
 
         validate();
     }
+
 }

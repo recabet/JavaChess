@@ -1,7 +1,7 @@
 package chess.gui;
 
-import chess.engine.board.Board;
-import chess.engine.board.Move;
+import chess.logic.board.Board;
+import chess.logic.board.Move;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -9,12 +9,18 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Panel to display the move history.
+ */
 public class HistoryPanel extends JPanel {
 
     private final DataModel model;
     private final JScrollPane scrollPane;
     private static final Dimension HISTORY_PANEL_DIMENSION = new Dimension(100, 400);
 
+    /**
+     * Constructs a HistoryPanel.
+     */
     HistoryPanel() {
         this.setLayout(new BorderLayout());
         this.model = new DataModel();
@@ -27,6 +33,12 @@ public class HistoryPanel extends JPanel {
         this.setVisible(true);
     }
 
+    /**
+     * Updates the move history panel.
+     *
+     * @param board   The current board.
+     * @param movelog The move log.
+     */
     void redo(final Board board, final Table.Movelog movelog) {
         int currentRow = 0;
         this.model.clear();
@@ -55,6 +67,12 @@ public class HistoryPanel extends JPanel {
         vertical.setValue(vertical.getMaximum());
     }
 
+    /**
+     * Calculates the check status hash for the given board.
+     *
+     * @param board The current board.
+     * @return The check status hash.
+     */
     private String calculateCheckStHash(final Board board) {
         if (board.getCurrentPlayer().isMated()) {
             return "#";
@@ -65,6 +83,9 @@ public class HistoryPanel extends JPanel {
         return "";
     }
 
+    /**
+     * Custom data model for the move history table.
+     */
     private static class DataModel extends DefaultTableModel {
         private final List<Row> values;
         private static final String[] NAMES = {"White", "Black"};
@@ -73,6 +94,9 @@ public class HistoryPanel extends JPanel {
             this.values = new ArrayList<>();
         }
 
+        /**
+         * Clears the data model.
+         */
         public void clear() {
             this.values.clear();
             setRowCount(0);
@@ -129,24 +153,53 @@ public class HistoryPanel extends JPanel {
         }
     }
 
+    /**
+     * Represents a row in the move history table.
+     */
     private static class Row {
 
         private String whiteMove;
         private String blackMove;
 
+        /**
+         * Constructs a Row object.
+         */
         Row() {
 
         }
 
+        /**
+         * Gets the move made by the white player.
+         *
+         * @return The white player's move.
+         */
         public String getWhiteMove() {
             return this.whiteMove;
         }
+
+        /**
+         * Gets the move made by the black player.
+         *
+         * @return The black player's move.
+         */
         public String getBlackMove() {
             return this.blackMove;
         }
+
+        /**
+         * Sets the move made by the white player.
+         *
+         * @param move The white player's move.
+         */
         public void setWhiteMove(final String move) {
             this.whiteMove = move;
         }
+
+        /**
+         * Sets the move made by the black player.
+         *
+         * @param move The black player's move.
+         */
         public void setBlackMove(final String move) {
             this.blackMove = move;
         }

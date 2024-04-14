@@ -1,17 +1,19 @@
-
 package chess;
 
-import chess.engine.board.Board;
+import chess.logic.board.Board;
 import chess.gui.Table;
 
-import javax.swing.*;
 import java.io.IOException;
 
-public class Main
-{
-    public static void main(String[]args) throws IOException {
-        Board board=Board.initStdBoard();
-        System.out.println(board);   // debugging purposes
-        Table table=new Table();
+public class Main {
+    public static void main(String[] args) throws IOException {
+        // Initialize a standard chess board
+        Board board = Board.initStdBoard();
+
+        // Print the board (for debugging purposes)
+        System.out.println(board);
+
+        // Create a new Table instance (the GUI)
+        Table table = new Table();
     }
 }
