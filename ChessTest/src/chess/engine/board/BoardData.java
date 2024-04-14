@@ -5,7 +5,6 @@ import java.util.Map;
 
 public class BoardData
 {
-
     public static final boolean[] FIRST_COL =initCol(0) ;
     public static final boolean[] SECOND_COL = initCol(1);
     public static final boolean[] SEVENTH_COL =initCol(6);

@@ -21,4 +21,8 @@ public class Changer
     public Board getChangedBoard() {
         return this.changedBoard;
     }
+
+    public Move getMove() {
+        return this.move;
+    }
 }

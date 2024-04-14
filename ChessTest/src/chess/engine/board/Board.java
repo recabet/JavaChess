@@ -7,6 +7,8 @@ import chess.engine.player.WhitePlayer;
 import chess.engine.player.*;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentLinkedDeque;
+
 public class Board
 {
     private final List<Square> gameBoard;
@@ -16,6 +18,7 @@ public class Board
     private final BlackPlayer blackPlayer;
     private final Player currentPlayer;
     private final Pawn enPassantPawn;
+    private final Move transitionMove;
 
     private Board(Builder builder)
     {
@@ -28,6 +31,7 @@ public class Board
         this.blackPlayer=new BlackPlayer(this,legalBlackStdLegalMoves,legalWhiteStdLegalMoves);
         this.currentPlayer=builder.MoveMaker.selectPlayer(this.whitePlayer,this.blackPlayer);
         this.enPassantPawn= builder.enPassentPawn;
+        this.transitionMove = builder.transitionMove != null ? builder.transitionMove : Move.INVALID_MOVE;
     }
 
     @Override
@@ -102,6 +106,12 @@ public class Board
     {
         return this.whitePieces;
     }
+    public Collection<Piece> getAllPieces() {
+        Collection<Piece> allPieces = new ArrayList<>();
+        allPieces.addAll(this.whitePieces);
+        allPieces.addAll(this.blackPieces);
+        return allPieces;
+    }
     public Player whitePlayer()
     {
         return this.whitePlayer;
@@ -109,6 +119,9 @@ public class Board
     public Player blackPlayer()
     {
         return this.blackPlayer;
+    }
+    public Pawn getenPassantPawn() {
+        return this.enPassantPawn;
     }
 
     public static Board initStdBoard()
@@ -122,7 +135,7 @@ public class Board
         builder.setPiece(new Bishop(58, Color.WHITE));
         builder.setPiece(new Bishop(61, Color.WHITE));
         builder.setPiece(new Queen(59, Color.WHITE));
-        builder.setPiece(new King(60, Color.WHITE));
+        builder.setPiece(new King(60, Color.WHITE, true, true));
         builder.setPiece(new Pawn(48, Color.WHITE));
         builder.setPiece(new Pawn(49, Color.WHITE));
         builder.setPiece(new Pawn(50, Color.WHITE));
@@ -139,7 +152,7 @@ public class Board
         builder.setPiece(new Bishop(2, Color.BLACK));
         builder.setPiece(new Bishop(5, Color.BLACK));
         builder.setPiece(new Queen(3, Color.BLACK));
-        builder.setPiece(new King(4, Color.BLACK));
+        builder.setPiece(new King(4, Color.BLACK, true, true));
         builder.setPiece(new Pawn(8, Color.BLACK));
         builder.setPiece(new Pawn(9, Color.BLACK));
         builder.setPiece(new Pawn(10, Color.BLACK));
@@ -161,20 +174,16 @@ public class Board
         return allLegalMoves;
     }
 
-    public Pawn getenPassantPawn() {
-        return this.enPassantPawn;
-    }
-
     public static class Builder
     {
         Map<Integer, Piece> initialBoard;
         Color MoveMaker;
         Pawn enPassentPawn;
+        Move transitionMove;
 
         public Builder()
         {
             this.initialBoard=new HashMap<>();
-
         }
 
         public Builder setPiece(final Piece piece)
@@ -194,9 +203,15 @@ public class Board
             return new Board(this);
         }
 
-        public void setEnPassent(Pawn movedPawn)
+        public Builder setTransitionMove(final Move transitionMove) {
+            this.transitionMove = transitionMove;
+            return this;
+        }
+
+        public Builder setEnPassent(Pawn movedPawn)
         {
             this.enPassentPawn=movedPawn;
+            return this;
         }
     }
 }
