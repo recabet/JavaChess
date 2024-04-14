@@ -21,7 +21,7 @@ public abstract class Player
         this.board = board;
         this.playerKing = createKing();
         this.isInCheck = !Player.calcAttackOnSquare(this.playerKing.getPieceCoord(), enemyMoves).isEmpty();
-        playerMoves.addAll(calcCastle(playerMoves, enemyMoves));
+
         this.legalMoves = Collections.unmodifiableCollection(playerMoves);
     }
 
@@ -118,6 +118,5 @@ public abstract class Player
     public abstract Color getColor();
 
     public abstract Player getEnemy();
-    protected abstract Collection<Move> calcCastle(Collection<Move> playerLegalMoves,Collection<Move> enemyLegalMoves);
 
 }

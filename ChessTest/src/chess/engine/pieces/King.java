@@ -16,6 +16,11 @@ public class King extends Piece
     private final boolean isCastled;
     private final boolean shortCastleCapable;
     private final boolean longCastleCapable;
+    /**
+     *
+     *
+     */
+
 
     public King(final int pieceCoord, final Color pieceColor, final boolean shortCastleCapable, final boolean longCastleCapable)
     {
@@ -59,7 +64,6 @@ public class King extends Piece
                     }
                 }
             }
-
         }
 
         return legalMoves;

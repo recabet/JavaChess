@@ -17,7 +17,6 @@ public class Board
     private final WhitePlayer whitePlayer;
     private final BlackPlayer blackPlayer;
     private final Player currentPlayer;
-    private final Pawn enPassantPawn;
     private final Move transitionMove;
 
     private Board(Builder builder)
@@ -30,7 +29,6 @@ public class Board
         this.whitePlayer=new WhitePlayer(this,legalWhiteStdLegalMoves,legalBlackStdLegalMoves);
         this.blackPlayer=new BlackPlayer(this,legalBlackStdLegalMoves,legalWhiteStdLegalMoves);
         this.currentPlayer=builder.MoveMaker.selectPlayer(this.whitePlayer,this.blackPlayer);
-        this.enPassantPawn= builder.enPassentPawn;
         this.transitionMove = builder.transitionMove != null ? builder.transitionMove : Move.INVALID_MOVE;
     }
 
@@ -120,9 +118,6 @@ public class Board
     {
         return this.blackPlayer;
     }
-    public Pawn getenPassantPawn() {
-        return this.enPassantPawn;
-    }
 
     public static Board initStdBoard()
     {
@@ -208,10 +203,6 @@ public class Board
             return this;
         }
 
-        public Builder setEnPassent(Pawn movedPawn)
-        {
-            this.enPassentPawn=movedPawn;
-            return this;
-        }
+
     }
 }

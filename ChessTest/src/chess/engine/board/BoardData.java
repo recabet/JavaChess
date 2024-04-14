@@ -22,6 +22,7 @@ public class BoardData
     public static final String[] ALGEBRAIC_NOTATION =initAlgebraicNotation();
     public static final Map<String, Integer> POSITION_TO_COORD = initPositionToCoord();
 
+
     private BoardData()
     {
         throw new RuntimeException("Not for creating");
