@@ -1,32 +1,50 @@
+# Java Chess Application
 
-Got it! Here's a revised README specifically for running the project using IntelliJ IDEA:
+This project is a Chess Application built using Java and Swing. It allows users to play a game of chess with a graphical user interface, implementing all standard chess rules and functionalities.
 
-Chess Game
-This is a simple chess game implemented in Java using Object-Oriented Programming principles.
+## Table of Contents
 
-Requirements
-IntelliJ IDEA (or another Java IDE)
-Java Development Kit (JDK) 8 or higher
-How to Run
-Open IntelliJ IDEA.
+- [Introduction](#introduction)
+- [Features](#features)
+- [Installation](#installation)
+- [Contributing](#contributing)
 
-Clone the repository or open the project:
 
-To clone the repository:
-Select Project -> New -> Project from Version Control.
-Enter the repository URL and click Clone.
-To open an existing project:
-Select Protecy -> Open.
-Navigate to the project directory and select it.
-Import the project:
+## Introduction
 
-IntelliJ IDEA should automatically detect the project structure and import it correctly. If prompted, make sure to select the appropriate JDK version.
-Locate the Main class:
+This Java Chess Application provides a fully functional chess game with a user-friendly graphical interface using Swing. It supports standard chess rules, including piece movement, check, checkmate, and stalemate conditions.
 
-Navigate to the src folder in the Project Explorer.
-Open the ChessTest/src/chess/Main.java file (or the file containing the main method).
-Run the Main class:
+## Features
 
-Right-click on the Main class file.
-Select Run 'Main'.
-The application should start, and you can begin playing the chess game.
+- **Graphical User Interface**: Intuitive and interactive GUI for playing chess.
+- **Piece Movement**: Validates and handles all standard chess moves.
+- **Check/Checkmate**: Detects and handles check and checkmate conditions.
+- **Stalemate**: Detects stalemate conditions.
+
+
+## Installation
+
+To use this Chess Application:
+
+1. Clone the repository:
+   ```sh
+   git clone https://github.com/recabet/JavaChess.git
+   ```
+2. Navigate to the directory: 
+```sh
+  cd JavaChess/ChessTest/src
+```
+3. Run Main.java.
+
+## Contributing
+
+Contributions to this repository are welcome! If you'd like to contribute, please follow these steps:
+
+1. Fork the repository.
+2. Create a new branch (`git checkout -b feature`)
+3. Make your changes.
+4. Commit your changes (`git commit -am 'Add new feature'`)
+5. Push to the branch (`git push origin feature`)
+6. Create a new Pull Request.
+
+Please ensure that your code follows the existing coding style and conventions. Also, add appropriate documentation and tests for new features.
