@@ -25,7 +25,8 @@ public abstract class Player {
      * @param playerMoves Collection of legal moves for the player.
      * @param enemyMoves  Collection of legal moves for the opponent.
      */
-    Player(final Board board, final Collection<Move> playerMoves, final Collection<Move> enemyMoves) {
+    Player(final Board board, final Collection<Move> playerMoves, final Collection<Move> enemyMoves)
+    {
         this.board = board;
         this.playerKing = createKing();
         this.isInCheck = !Player.calcAttackOnSquare(this.playerKing.getPieceCoord(), enemyMoves).isEmpty();
@@ -39,10 +40,13 @@ public abstract class Player {
      * @param moves      Collection of moves to check.
      * @return Collection of attack moves on the specified square.
      */
-    public static Collection<Move> calcAttackOnSquare(int pieceCoord, Collection<Move> moves) {
+    public static Collection<Move> calcAttackOnSquare(int pieceCoord, Collection<Move> moves)
+    {
         final List<Move> attackMoves = new ArrayList<>();
-        for (final Move move : moves) {
-            if (pieceCoord == move.getDestinationCoord()) {
+        for(final Move move : moves)
+        {
+            if(pieceCoord == move.getDestinationCoord())
+            {
                 attackMoves.add(move);
             }
         }
@@ -54,9 +58,12 @@ public abstract class Player {
      *
      * @return The king piece.
      */
-    private King createKing() {
-        for (final Piece piece : getActivePieces()) {
-            if (piece.getPieceType().isKing()) {
+    private King createKing()
+    {
+        for(final Piece piece : getActivePieces())
+        {
+            if(piece.getPieceType().isKing())
+            {
                 return (King) piece;
             }
         }
@@ -69,7 +76,8 @@ public abstract class Player {
      * @param move The move to check.
      * @return True if the move is legal, false otherwise.
      */
-    public boolean isMoveLegal(final Move move) {
+    public boolean isMoveLegal(final Move move)
+    {
         return this.legalMoves.contains(move);
     }
 
@@ -78,7 +86,8 @@ public abstract class Player {
      *
      * @return True if the player is in check, false otherwise.
      */
-    public boolean isInCheck() {
+    public boolean isInCheck()
+    {
         return this.isInCheck;
     }
 
@@ -87,7 +96,8 @@ public abstract class Player {
      *
      * @return True if the player is mated, false otherwise.
      */
-    public boolean isMated() {
+    public boolean isMated()
+    {
         return this.isInCheck && !hasEscape();
     }
 
@@ -96,10 +106,13 @@ public abstract class Player {
      *
      * @return True if the player has an escape move, false otherwise.
      */
-    private boolean hasEscape() {
-        for (final Move move : this.legalMoves) {
+    private boolean hasEscape()
+    {
+        for(final Move move : this.legalMoves)
+        {
             final Changer changeMove = makeMove(move);
-            if (changeMove.getMoveSt().isDone()) {
+            if(changeMove.moveSt().isDone())
+            {
                 return true;
             }
         }
@@ -112,13 +125,16 @@ public abstract class Player {
      * @param move The move to make.
      * @return A Changer object containing the changed board and the move state.
      */
-    public Changer makeMove(final Move move) {
-        if (!isMoveLegal(move)) {
+    public Changer makeMove(final Move move)
+    {
+        if(!isMoveLegal(move))
+        {
             return new Changer(this.board, move, MoveSt.ILLEGAL_MOVE);
         }
         final Board changedBoard = move.make();
         final Collection<Move> attacksOnKing = Player.calcAttackOnSquare(changedBoard.getCurrentPlayer().getEnemy().getPlayerKing().getPieceCoord(), changedBoard.getCurrentPlayer().getLegalMoves());
-        if (!attacksOnKing.isEmpty()) {
+        if(!attacksOnKing.isEmpty())
+        {
             return new Changer(this.board, move, MoveSt.IN_CHECK);
         }
         return new Changer(changedBoard, move, MoveSt.DONE);
@@ -129,7 +145,8 @@ public abstract class Player {
      *
      * @return True if the player is in stalemate, false otherwise.
      */
-    public boolean isStalemate() {
+    public boolean isStalemate()
+    {
         return !this.isInCheck && !hasEscape();
     }
 
@@ -138,7 +155,8 @@ public abstract class Player {
      *
      * @return The player's king piece.
      */
-    public King getPlayerKing() {
+    public King getPlayerKing()
+    {
         return this.playerKing;
     }
 
@@ -147,7 +165,8 @@ public abstract class Player {
      *
      * @return True if the player has castled, false otherwise.
      */
-    public boolean isCastled() {
+    public boolean isCastled()
+    {
         return false;
     }
 
@@ -156,12 +175,14 @@ public abstract class Player {
      *
      * @return Collection of legal moves for the player.
      */
-    public Collection<Move> getLegalMoves() {
+    public Collection<Move> getLegalMoves()
+    {
         return this.legalMoves;
     }
 
     // why need this?
-    public Changer MakeMove(final Move move) {
+    public Changer MakeMove(final Move move)
+    {
         return null;
     }
 
@@ -185,4 +206,6 @@ public abstract class Player {
      * @return The enemy player.
      */
     public abstract Player getEnemy();
+
+    protected abstract Collection<Move> calcCastle(Collection<Move> playerLegalMoves, Collection<Move> enemyLegalMoves);
 }

@@ -5,6 +5,7 @@ import chess.logic.board.Board;
 import chess.logic.board.Move;
 
 import java.util.List;
+
 /**
  * Represents a chess piece on the game board.
  */
@@ -25,7 +26,8 @@ public abstract class Piece {
      * @param pieceColor  The color of the piece.
      * @param isFirstMove True if it's the piece's first move, false otherwise.
      */
-    Piece(final PieceType pieceType, final int pieceCoord, final Color pieceColor, final boolean isFirstMove) {
+    Piece(final PieceType pieceType, final int pieceCoord, final Color pieceColor, final boolean isFirstMove)
+    {
         this.pieceType = pieceType;
         this.pieceColor = pieceColor;
         this.pieceCoord = pieceCoord;
@@ -34,7 +36,8 @@ public abstract class Piece {
     }
 
     // Calculate the hash code for the piece
-    private int calchashCode() {
+    private int calchashCode()
+    {
         int res = pieceType.hashCode();
         res = 31 * res + pieceColor.hashCode();
         res = 31 * res + pieceCoord;
@@ -47,7 +50,8 @@ public abstract class Piece {
      *
      * @return The color of the piece.
      */
-    public Color getPieceColor() {
+    public Color getPieceColor()
+    {
         return this.pieceColor;
     }
 
@@ -56,7 +60,8 @@ public abstract class Piece {
      *
      * @return The coordinate of the piece.
      */
-    public int getPieceCoord() {
+    public int getPieceCoord()
+    {
         return pieceCoord;
     }
 
@@ -65,7 +70,8 @@ public abstract class Piece {
      *
      * @return True if it's the first move, false otherwise.
      */
-    public boolean isFirstMove() {
+    public boolean isFirstMove()
+    {
         return this.isFirstMove;
     }
 
@@ -74,7 +80,8 @@ public abstract class Piece {
      *
      * @return The type of the piece.
      */
-    public PieceType getPieceType() {
+    public PieceType getPieceType()
+    {
         return this.pieceType;
     }
 
@@ -83,7 +90,8 @@ public abstract class Piece {
      *
      * @return The value of the piece.
      */
-    public int getPieceValue() {
+    public int getPieceValue()
+    {
         return this.pieceType.getPieceValue();
     }
 
@@ -92,78 +100,92 @@ public abstract class Piece {
      */
     public enum PieceType {
 
-        KING(10000, "K") {
-            @Override
-            public boolean isKing() {
-                return true;
-            }
+        KING(10000, "K")
+                {
+                    @Override
+                    public boolean isKing()
+                    {
+                        return true;
+                    }
 
-            @Override
-            public boolean isRook() {
-                return false;
-            }
-        },
-        QUEEN(900, "Q") {
-            @Override
-            public boolean isKing() {
-                return false;
-            }
+                    @Override
+                    public boolean isRook()
+                    {
+                        return false;
+                    }
+                }, QUEEN(900, "Q")
+                {
+                    @Override
+                    public boolean isKing()
+                    {
+                        return false;
+                    }
 
-            @Override
-            public boolean isRook() {
-                return false;
-            }
-        },
-        ROOK(500, "R") {
-            @Override
-            public boolean isKing() {
-                return false;
-            }
+                    @Override
+                    public boolean isRook()
+                    {
+                        return false;
+                    }
+                }, ROOK(500, "R")
+                {
+                    @Override
+                    public boolean isKing()
+                    {
+                        return false;
+                    }
 
-            @Override
-            public boolean isRook() {
-                return true;
-            }
-        },
-        BISHOP(300, "B") {
-            @Override
-            public boolean isKing() {
-                return false;
-            }
+                    @Override
+                    public boolean isRook()
+                    {
+                        return true;
+                    }
+                }, BISHOP(300, "B")
+                {
+                    @Override
+                    public boolean isKing()
+                    {
+                        return false;
+                    }
 
-            @Override
-            public boolean isRook() {
-                return false;
-            }
-        },
-        KNIGHT(300, "N") {
-            @Override
-            public boolean isKing() {
-                return false;
-            }
+                    @Override
+                    public boolean isRook()
+                    {
+                        return false;
+                    }
+                }, KNIGHT(300, "N")
+                {
+                    @Override
+                    public boolean isKing()
+                    {
+                        return false;
+                    }
 
-            @Override
-            public boolean isRook() {
-                return false;
-            }
-        },
-        PAWN(100, "P") {
-            @Override
-            public boolean isKing() {
-                return false;
-            }
+                    @Override
+                    public boolean isRook()
+                    {
+                        return false;
+                    }
+                }, PAWN(100, "P")
+                {
+                    @Override
+                    public boolean isKing()
+                    {
+                        return false;
+                    }
 
-            @Override
-            public boolean isRook() {
-                return false;
-            }
-        };
+                    @Override
+                    public boolean isRook()
+                    {
+                        return false;
+                    }
+                };
 
         private final String name;
-        private int pieceValue;
+        private final int pieceValue;
 
         // Constructor
-        PieceType(final int pieceValue, final String name) {
+        PieceType(final int pieceValue, final String name)
+        {
             this.name = name;
             this.pieceValue = pieceValue;
         }
@@ -174,7 +196,8 @@ public abstract class Piece {
          * @return The string representation of the piece type.
          */
         @Override
-        public String toString() {
+        public String toString()
+        {
             return this.name;
         }
 
@@ -183,7 +206,8 @@ public abstract class Piece {
          *
          * @return The value of the piece.
          */
-        public int getPieceValue() {
+        public int getPieceValue()
+        {
             return this.pieceValue;
         }
 
@@ -225,14 +249,16 @@ public abstract class Piece {
      * @return True if the current piece is equal to the object, false otherwise.
      */
     @Override
-    public boolean equals(final Object object) {
-        if (this == object) {
+    public boolean equals(final Object object)
+    {
+        if(this == object)
+        {
             return true;
         }
-        if (!(object instanceof Piece)) {
+        if(!(object instanceof Piece other))
+        {
             return false;
         }
-        final Piece other = (Piece) object;
         return pieceCoord == other.getPieceCoord() && pieceType == other.getPieceType() && pieceColor == other.getPieceColor() && isFirstMove == other.isFirstMove();
     }
 
@@ -241,7 +267,8 @@ public abstract class Piece {
      *
      * @return The hash code of the piece.
      */
-    public int gethashCode() {
+    public int gethashCode()
+    {
         return this.hashCode;
     }
 }

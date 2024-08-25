@@ -6,11 +6,7 @@ import chess.logic.board.Move;
 /**
  * Represents a change in the game state caused by a move.
  */
-public class Changer {
-    private final Board changedBoard;
-    private final Move move;
-    private final MoveSt moveSt;
-
+public record Changer(Board changedBoard, Move move, MoveSt moveSt) {
     /**
      * Initializes a changer with the given changed board, move, and move state.
      *
@@ -18,10 +14,8 @@ public class Changer {
      * @param move         The move that caused the change.
      * @param moveSt       The state of the move (e.g., NORMAL, CASTLE, PROMOTION).
      */
-    public Changer(final Board changedBoard, final Move move, final MoveSt moveSt) {
-        this.changedBoard = changedBoard;
-        this.move = move;
-        this.moveSt = moveSt;
+    public Changer
+    {
     }
 
     /**
@@ -29,7 +23,9 @@ public class Changer {
      *
      * @return The state of the move.
      */
-    public MoveSt getMoveSt() {
+    @Override
+    public MoveSt moveSt()
+    {
         return this.moveSt;
     }
 
@@ -38,7 +34,9 @@ public class Changer {
      *
      * @return The board after the move has been applied.
      */
-    public Board getChangedBoard() {
+    @Override
+    public Board changedBoard()
+    {
         return this.changedBoard;
     }
 
@@ -47,7 +45,9 @@ public class Changer {
      *
      * @return The move that caused the change.
      */
-    public Move getMove() {
+    @Override
+    public Move move()
+    {
         return this.move;
     }
 }

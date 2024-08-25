@@ -12,8 +12,7 @@ import java.util.*;
  * Represents a Board in a chess game.
  * This class manages the game board, including pieces, player turns, and legal moves.
  */
-public class Board
-{
+public class Board {
     private final List<Square> gameBoard; // The game board represented as a list of squares
     private final Collection<Piece> whitePieces; // Collection of white pieces on the board
     private final Collection<Piece> blackPieces; // Collection of black pieces on the board
@@ -29,11 +28,12 @@ public class Board
         this.blackPieces = trackActivePieces(this.gameBoard, Color.BLACK);
         final Collection<Move> legalWhiteStdLegalMoves = getLegalMoves(this.whitePieces);
         final Collection<Move> legalBlackStdLegalMoves = getLegalMoves(this.blackPieces);
-        this.whitePlayer=new WhitePlayer(this,legalWhiteStdLegalMoves,legalBlackStdLegalMoves);
-        this.blackPlayer=new BlackPlayer(this,legalBlackStdLegalMoves,legalWhiteStdLegalMoves);
-        this.currentPlayer=builder.MoveMaker.selectPlayer(this.whitePlayer,this.blackPlayer);
+        this.whitePlayer = new WhitePlayer(this, legalWhiteStdLegalMoves, legalBlackStdLegalMoves);
+        this.blackPlayer = new BlackPlayer(this, legalBlackStdLegalMoves, legalWhiteStdLegalMoves);
+        this.currentPlayer = builder.MoveMaker.selectPlayer(this.whitePlayer, this.blackPlayer);
         this.transitionMove = builder.transitionMove != null ? builder.transitionMove : Move.INVALID_MOVE;
     }
+
     /**
      * Returns a string representation of the chess board. Each square on the board is represented by its
      * respective piece or an empty square. The representation is formatted to display the board in a
@@ -45,17 +45,18 @@ public class Board
     public String toString()
     {
         final StringBuilder builder = new StringBuilder();
-        for (int numSquares = 0; numSquares < 64; ++numSquares)
+        for(int numSquares = 0; numSquares < 64; ++numSquares)
         {
-            final String squaretxt =this.gameBoard.get(numSquares).toString();
+            final String squaretxt = this.gameBoard.get(numSquares).toString();
             builder.append(String.format("%3s", squaretxt));
-            if ((numSquares + 1) % 8 == 0)
+            if((numSquares + 1) % 8 == 0)
             {
                 builder.append("\n");
             }
         }
         return builder.toString();
     }
+
     /**
      * Retrieves all legal moves available for the pieces of the specified color on the board.
      * This method iterates through all pieces of the specified color and retrieves their legal moves
@@ -67,12 +68,13 @@ public class Board
     private Collection<Move> getLegalMoves(Collection<Piece> colorPieces)
     {
         final List<Move> legalMoves = new ArrayList<>();
-        for (final Piece piece : colorPieces)
+        for(final Piece piece : colorPieces)
         {
             legalMoves.addAll(piece.getLegalMoves(this));
         }
         return legalMoves;
     }
+
     /**
      * Retrieves the current player.
      *
@@ -82,6 +84,7 @@ public class Board
     {
         return this.currentPlayer;
     }
+
     /**
      * Tracks and retrieves all active pieces of the specified color on the chess board.
      * This method iterates through all squares on the board and checks if each square is occupied.
@@ -89,18 +92,18 @@ public class Board
      * matches the specified color. If so, the piece is considered active and added to the list of active pieces.
      *
      * @param gameBoard the list of squares representing the chess board
-     * @param color the color of the pieces to track (WHITE or BLACK)
+     * @param color     the color of the pieces to track (WHITE or BLACK)
      * @return a collection containing all active pieces of the specified color on the board
      */
     static private Collection<Piece> trackActivePieces(final List<Square> gameBoard, final Color color)
     {
         final List<Piece> activePieces = new ArrayList<>();
-        for (final Square square : gameBoard)
+        for(final Square square : gameBoard)
         {
-            if (square.isOccupied())
+            if(square.isOccupied())
             {
                 final Piece piece = square.getPiece();
-                if (piece.getPieceColor() == color)
+                if(piece.getPieceColor() == color)
                 {
                     activePieces.add(piece);
                 }
@@ -109,6 +112,7 @@ public class Board
         }
         return activePieces;
     }
+
     /**
      * Retrieves a square on the board based on its coordinate.
      *
@@ -132,13 +136,14 @@ public class Board
     private static List<Square> initGameBoard(final Builder builder)
     {
         final List<Square> squares = new ArrayList<>();
-        for (int numSquares = 0; numSquares < 64; ++numSquares)
+        for(int numSquares = 0; numSquares < 64; ++numSquares)
         {
             squares.add(Square.createSquare(numSquares, builder.initialBoard.get(numSquares)));
 
         }
         return squares;
     }
+
     /**
      * Retrieves the collection of black pieces on the board.
      *
@@ -148,6 +153,7 @@ public class Board
     {
         return this.blackPieces;
     }
+
     /**
      * Retrieves the collection of white pieces on the board.
      *
@@ -157,17 +163,20 @@ public class Board
     {
         return this.whitePieces;
     }
+
     /**
      * Retrieves all pieces on the board.
      *
      * @return a collection containing all pieces on the board
      */
-    public Collection<Piece> getAllPieces() {
+    public Collection<Piece> getAllPieces()
+    {
         Collection<Piece> allPieces = new ArrayList<>();
         allPieces.addAll(this.whitePieces);
         allPieces.addAll(this.blackPieces);
         return allPieces;
     }
+
     /**
      * Retrieves the white player.
      *
@@ -177,6 +186,7 @@ public class Board
     {
         return this.whitePlayer;
     }
+
     /**
      * Retrieves the black player.
      *
@@ -186,6 +196,7 @@ public class Board
     {
         return this.blackPlayer;
     }
+
     /**
      * Initializes a standard chess board with the default starting position of pieces for both players.
      * This method constructs a new builder, adds pieces for both white and black players to the initial board configuration,
@@ -235,6 +246,7 @@ public class Board
         builder.setMoveMaker(Color.WHITE);
         return builder.build();
     }
+
     /**
      * Retrieves all legal moves available on the current board for both white and black players.
      * This method retrieves the legal moves for the white player and the black player, combines them into a single list,
@@ -249,22 +261,24 @@ public class Board
         allLegalMoves.addAll(this.blackPlayer.getLegalMoves());
         return allLegalMoves;
     }
+
     /**
      * Represents a builder for creating a Board object with a custom configuration of pieces.
      * This class allows setting pieces, move maker, and transition move before building the board.
      */
-    public static class Builder
-    {
+    public static class Builder {
         Map<Integer, Piece> initialBoard;
         Color MoveMaker;
         Move transitionMove;
+
         /**
          * Constructs a new Builder object with an empty initial board configuration.
          */
         public Builder()
         {
-            this.initialBoard=new HashMap<>();
+            this.initialBoard = new HashMap<>();
         }
+
         /**
          * Adds a piece to the initial board configuration.
          *
@@ -276,6 +290,7 @@ public class Board
             this.initialBoard.put(piece.getPieceCoord(), piece);
             return this;
         }
+
         /**
          * Sets the color of the player to make the next move.
          *
@@ -297,13 +312,15 @@ public class Board
         {
             return new Board(this);
         }
+
         /**
          * Sets the transition move for the board.
          *
          * @param transitionMove the transition move to set
          * @return the current Builder object for method chaining
          */
-        public Builder setTransitionMove(final Move transitionMove) {
+        public Builder setTransitionMove(final Move transitionMove)
+        {
             this.transitionMove = transitionMove;
             return this;
         }

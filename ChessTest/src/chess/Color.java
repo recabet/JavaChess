@@ -6,68 +6,81 @@ import chess.logic.player.Player;
 import chess.logic.player.WhitePlayer;
 
 public enum Color {
-    WHITE {
-        @Override
-        public int getDirection() {
-            return -1;
-        }
+    WHITE
+            {
+                @Override
+                public int getDirection()
+                {
+                    return -1;
+                }
 
-        @Override
-        public boolean isWhite() {
-            return true;
-        }
+                @Override
+                public boolean isWhite()
+                {
+                    return true;
+                }
 
-        @Override
-        public boolean isBlack() {
-            return false;
-        }
+                @Override
+                public boolean isBlack()
+                {
+                    return false;
+                }
 
-        @Override
-        public int getOppositeDirection() {
-            return 1;
-        }
+                @Override
+                public int getOppositeDirection()
+                {
+                    return 1;
+                }
 
-        @Override
-        public boolean isPawnPromotionSquare(int squareId) {
-            return BoardData.EIGHTH_RANK[squareId];
-        }
+                @Override
+                public boolean isPawnPromotionSquare(int squareId)
+                {
+                    return BoardData.EIGHTH_RANK[squareId];
+                }
 
-        @Override
-        public Player selectPlayer(WhitePlayer whitePlayer, BlackPlayer blackPlayer) {
-            return whitePlayer;
-        }
-    },
-    BLACK {
-        @Override
-        public int getDirection() {
-            return 1;
-        }
+                @Override
+                public Player selectPlayer(WhitePlayer whitePlayer, BlackPlayer blackPlayer)
+                {
+                    return whitePlayer;
+                }
+            }, BLACK
+            {
+                @Override
+                public int getDirection()
+                {
+                    return 1;
+                }
 
-        @Override
-        public boolean isWhite() {
-            return false;
-        }
+                @Override
+                public boolean isWhite()
+                {
+                    return false;
+                }
 
-        @Override
-        public boolean isBlack() {
-            return true;
-        }
+                @Override
+                public boolean isBlack()
+                {
+                    return true;
+                }
 
-        @Override
-        public int getOppositeDirection() {
-            return -1;
-        }
+                @Override
+                public int getOppositeDirection()
+                {
+                    return -1;
+                }
 
-        @Override
-        public boolean isPawnPromotionSquare(int squareId) {
-            return BoardData.FIRST_RANK[squareId];
-        }
+                @Override
+                public boolean isPawnPromotionSquare(int squareId)
+                {
+                    return BoardData.FIRST_RANK[squareId];
+                }
 
-        @Override
-        public Player selectPlayer(WhitePlayer whitePlayer, BlackPlayer blackPlayer) {
-            return blackPlayer;
-        }
-    };
+                @Override
+                public Player selectPlayer(WhitePlayer whitePlayer, BlackPlayer blackPlayer)
+                {
+                    return blackPlayer;
+                }
+            };
 
     /**
      * Gets the direction of movement for this color.

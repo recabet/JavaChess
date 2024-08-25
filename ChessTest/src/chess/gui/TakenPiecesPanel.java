@@ -11,7 +11,6 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -30,7 +29,8 @@ public class TakenPiecesPanel extends JPanel {
     /**
      * Constructs a TakenPiecesPanel.
      */
-    public TakenPiecesPanel() {
+    public TakenPiecesPanel()
+    {
         super(new BorderLayout());
         this.setBackground(PANEL_COLOR);
         this.setBorder(PANEL_BORDER);
@@ -44,16 +44,12 @@ public class TakenPiecesPanel extends JPanel {
     }
 
     /**
-     * Updates the taken pieces panel based on the move log.
-     *
-     * @param movelog The move log.
-     */
-    /**
      * Updates the TakenPiecesPanel with the pieces that have been taken during the game.
      *
      * @param movelog The MoveLog containing all the moves made in the game.
      */
-    public void redo(final Table.Movelog movelog) {
+    public void redo(final Table.Movelog movelog)
+    {
         this.southPanel.removeAll();
         this.northPanel.removeAll();
 
@@ -62,49 +58,53 @@ public class TakenPiecesPanel extends JPanel {
         final List<Piece> bTakenPieces = new ArrayList<>();
 
         // Iterate through the moves in the MoveLog
-        for (final Move move : movelog.getMoves()) {
+        for(final Move move : movelog.getMoves())
+        {
             // Check if the move is an attack
-            if (move.isAttack()) {
+            if(move.isAttack())
+            {
                 final Piece takenPiece = move.getAttackedPiece();
                 // Add the taken piece to the appropriate list based on its color
-                if (takenPiece.getPieceColor().isWhite()) {
+                if(takenPiece.getPieceColor().isWhite())
+                {
                     wTakenPieces.add(takenPiece);
-                } else {
+                } else
+                {
                     bTakenPieces.add(takenPiece);
                 }
             }
         }
 
         // Sort the taken pieces based on their values
-        Collections.sort(wTakenPieces, Comparator.comparingInt(Piece::getPieceValue));
-        Collections.sort(bTakenPieces, Comparator.comparingInt(Piece::getPieceValue));
+        wTakenPieces.sort(Comparator.comparingInt(Piece::getPieceValue));
+        bTakenPieces.sort(Comparator.comparingInt(Piece::getPieceValue));
 
         // Add images of the taken white pieces to the south panel
-        for (final Piece takenPiece : wTakenPieces) {
-            try {
-                final BufferedImage image = ImageIO.read(new File("images/simple/"
-                        + takenPiece.getPieceColor().toString().substring(0, 1) + "" + takenPiece.toString()
-                        + ".gif"));
+        for(final Piece takenPiece : wTakenPieces)
+        {
+            try
+            {
+                final BufferedImage image = ImageIO.read(new File("images/simple/" + takenPiece.getPieceColor().toString().charAt(0) + takenPiece.toString() + ".gif"));
                 final ImageIcon ic = new ImageIcon(image);
-                final JLabel imageLabel = new JLabel(new ImageIcon(ic.getImage().getScaledInstance(
-                        ic.getIconWidth() - 15, ic.getIconWidth() - 15, Image.SCALE_SMOOTH)));
+                final JLabel imageLabel = new JLabel(new ImageIcon(ic.getImage().getScaledInstance(ic.getIconWidth() - 15, ic.getIconWidth() - 15, Image.SCALE_SMOOTH)));
                 this.southPanel.add(imageLabel);
-            } catch (IOException e) {
+            } catch(IOException e)
+            {
                 throw new RuntimeException(e);
             }
         }
 
         // Add images of the taken black pieces to the south panel
-        for (final Piece takenPiece : bTakenPieces) {
-            try {
-                final BufferedImage image = ImageIO.read(new File("images/simple/"
-                        + takenPiece.getPieceColor().toString().substring(0, 1) + "" + takenPiece.toString()
-                        + ".gif"));
+        for(final Piece takenPiece : bTakenPieces)
+        {
+            try
+            {
+                final BufferedImage image = ImageIO.read(new File("images/simple/" + takenPiece.getPieceColor().toString().charAt(0) + takenPiece.toString() + ".gif"));
                 final ImageIcon ic = new ImageIcon(image);
-                final JLabel imageLabel = new JLabel(new ImageIcon(ic.getImage().getScaledInstance(
-                        ic.getIconWidth() - 15, ic.getIconWidth() - 15, Image.SCALE_SMOOTH)));
+                final JLabel imageLabel = new JLabel(new ImageIcon(ic.getImage().getScaledInstance(ic.getIconWidth() - 15, ic.getIconWidth() - 15, Image.SCALE_SMOOTH)));
                 this.southPanel.add(imageLabel);
-            } catch (IOException e) {
+            } catch(IOException e)
+            {
                 throw new RuntimeException(e);
             }
         }

@@ -5,23 +5,30 @@ import chess.logic.board.Board;
 import chess.logic.board.BoardData;
 import chess.logic.board.Move;
 import chess.logic.board.Square;
+
 import java.util.ArrayList;
 import java.util.List;
+
 /**
  * Represents a Bishop piece in the chess game.
  * Extends the abstract Piece class.
  */
-public class Bishop extends Piece
-{
-    /** Predefined movement vectors for the bishop. */
-    private final static int[] PRESET_VECTOR_COORDS={-9,-7,7,9};
+public class Bishop extends Piece {
+    /**
+     * Predefined movement vectors for the bishop.
+     */
+    private final static int[] PRESET_VECTOR_COORDS = {-9, -7, 7, 9};
+
     /**
      * Constructs a Bishop object with the specified piece coordinate and color.
      *
      * @param pieceCoord The coordinate of the bishop on the board.
      * @param pieceColor The color of the bishop (BLACK or WHITE).
      */
-    public Bishop(final int pieceCoord,final  Color pieceColor) { super(PieceType.BISHOP,pieceCoord, pieceColor, true); }
+    public Bishop(final int pieceCoord, final Color pieceColor)
+    {
+        super(PieceType.BISHOP, pieceCoord, pieceColor, true);
+    }
 
     /**
      * Gets the legal moves for the bishop on the given board.
@@ -35,32 +42,38 @@ public class Bishop extends Piece
         final List<Move> legalMoves = new ArrayList<>();
 
         // Iterate through predefined movement vectors for the bishop
-        for (final int currentOffset : PRESET_VECTOR_COORDS) {
+        for(final int currentOffset : PRESET_VECTOR_COORDS)
+        {
             int possibleDestinationCoord = this.pieceCoord;
 
             // Loop to calculate possible destination coordinates
-            while (BoardData.isValidSquareCoord(possibleDestinationCoord)) {
+            while(BoardData.isValidSquareCoord(possibleDestinationCoord))
+            {
                 // Check if the bishop is blocked by piece or out of bounds
-                if (isFirstCol(possibleDestinationCoord, currentOffset) ||
-                        isEighthCol(possibleDestinationCoord, currentOffset)) {
+                if(isFirstCol(possibleDestinationCoord, currentOffset) || isEighthCol(possibleDestinationCoord, currentOffset))
+                {
                     break;
                 }
 
                 possibleDestinationCoord += currentOffset;
 
                 // Check if the possible destination is within the board
-                if (BoardData.isValidSquareCoord(possibleDestinationCoord)) {
+                if(BoardData.isValidSquareCoord(possibleDestinationCoord))
+                {
                     final Square possibleDestinationSquare = board.getSquare(possibleDestinationCoord);
 
                     // If the destination square is unoccupied, add a regular move
-                    if (!possibleDestinationSquare.isOccupied()) {
+                    if(!possibleDestinationSquare.isOccupied())
+                    {
                         legalMoves.add(new Move.MajorPieceRegularMove(board, this, possibleDestinationCoord));
-                    } else {
+                    } else
+                    {
                         // If the destination square is occupied, add an attack move if it's an enemy piece
                         final Piece pieceAtDestination = possibleDestinationSquare.getPiece();
                         final Color pieceColor = pieceAtDestination.getPieceColor();
 
-                        if (this.pieceColor != pieceColor) {
+                        if(this.pieceColor != pieceColor)
+                        {
                             legalMoves.add(new Move.MajorPieceAttackMove(board, this, pieceAtDestination, possibleDestinationCoord));
                         }
                         break;
@@ -79,7 +92,8 @@ public class Bishop extends Piece
      * @return A new bishop piece with updated position.
      */
     @Override
-    public Piece movePiece(final Move move) {
+    public Piece movePiece(final Move move)
+    {
         return new Bishop(move.getDestinationCoord(), move.getMovedPiece().getPieceColor());
     }
 
@@ -91,7 +105,8 @@ public class Bishop extends Piece
      * @param offset       The offset representing the move direction.
      * @return True if the bishop is in the first column and the offset corresponds to valid moves, otherwise false.
      */
-    private static boolean isFirstCol(final int currentCoord, final int offset) {
+    private static boolean isFirstCol(final int currentCoord, final int offset)
+    {
         return BoardData.FIRST_COL[currentCoord] && ((offset == -9) || (offset == 7));
     }
 
@@ -103,7 +118,8 @@ public class Bishop extends Piece
      * @param offset       The offset representing the move direction.
      * @return True if the bishop is in the eighth column and the offset corresponds to valid moves, otherwise false.
      */
-    private static boolean isEighthCol(final int currentCoord, final int offset) {
+    private static boolean isEighthCol(final int currentCoord, final int offset)
+    {
         return BoardData.EIGHTH_COL[currentCoord] && ((offset == 9) || (offset == -7));
     }
 
@@ -113,7 +129,8 @@ public class Bishop extends Piece
      * @return The string representation of the bishop piece.
      */
     @Override
-    public String toString() {
+    public String toString()
+    {
         return PieceType.BISHOP.toString();
     }
 
