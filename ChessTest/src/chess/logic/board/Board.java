@@ -19,7 +19,6 @@ public class Board {
     private final WhitePlayer whitePlayer; // The white player
     private final BlackPlayer blackPlayer; // The black player
     private final Player currentPlayer; // The current player
-    private final Move transitionMove; // The transition move
 
     private Board(Builder builder)
     {
@@ -31,7 +30,7 @@ public class Board {
         this.whitePlayer = new WhitePlayer(this, legalWhiteStdLegalMoves, legalBlackStdLegalMoves);
         this.blackPlayer = new BlackPlayer(this, legalBlackStdLegalMoves, legalWhiteStdLegalMoves);
         this.currentPlayer = builder.MoveMaker.selectPlayer(this.whitePlayer, this.blackPlayer);
-        this.transitionMove = builder.transitionMove != null ? builder.transitionMove : Move.INVALID_MOVE;
+        Move transitionMove = builder.transitionMove != null ? builder.transitionMove : Move.INVALID_MOVE;
     }
 
     /**
@@ -138,7 +137,7 @@ public class Board {
         final List<Square> squares = new ArrayList<>();
         for(int numSquares = 0; numSquares < 64; ++numSquares)
         {
-            squares.add(Square.createSquare(numSquares, builder.initialBoard.get(numSquares)));
+            squares.add(Square.createSquare(numSquares, builder.initialBoard.get((Integer)numSquares)));
 
         }
         return squares;
@@ -287,7 +286,7 @@ public class Board {
          */
         public Builder setPiece(final Piece piece)
         {
-            this.initialBoard.put(piece.getPieceCoord(), piece);
+            this.initialBoard.put((Integer)piece.getPieceCoord(), piece);
             return this;
         }
 
@@ -295,12 +294,10 @@ public class Board {
          * Sets the color of the player to make the next move.
          *
          * @param moveMaker the color of the player to make the next move (WHITE or BLACK)
-         * @return the current Builder object for method chaining
          */
-        public Builder setMoveMaker(final Color moveMaker)
+        public void setMoveMaker(final Color moveMaker)
         {
             this.MoveMaker = moveMaker;
-            return this;
         }
 
         /**
@@ -317,12 +314,10 @@ public class Board {
          * Sets the transition move for the board.
          *
          * @param transitionMove the transition move to set
-         * @return the current Builder object for method chaining
          */
-        public Builder setTransitionMove(final Move transitionMove)
+        public void setTransitionMove(final Move transitionMove)
         {
             this.transitionMove = transitionMove;
-            return this;
         }
 
 

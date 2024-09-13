@@ -84,7 +84,7 @@ public class TakenPiecesPanel extends JPanel {
         {
             try
             {
-                final BufferedImage image = ImageIO.read(new File("images/simple/" + takenPiece.getPieceColor().toString().charAt(0) + takenPiece.toString() + ".gif"));
+                final BufferedImage image = ImageIO.read(new File("images/simple/" + takenPiece.getPieceColor().toString().charAt(0) + takenPiece + ".gif"));
                 final ImageIcon ic = new ImageIcon(image);
                 final JLabel imageLabel = new JLabel(new ImageIcon(ic.getImage().getScaledInstance(ic.getIconWidth() - 15, ic.getIconWidth() - 15, Image.SCALE_SMOOTH)));
                 this.southPanel.add(imageLabel);
@@ -99,7 +99,7 @@ public class TakenPiecesPanel extends JPanel {
         {
             try
             {
-                final BufferedImage image = ImageIO.read(new File("images/simple/" + takenPiece.getPieceColor().toString().charAt(0) + takenPiece.toString() + ".gif"));
+                final BufferedImage image = ImageIO.read(new File("images/simple/" + takenPiece.getPieceColor().toString().charAt(0) + takenPiece + ".gif"));
                 final ImageIcon ic = new ImageIcon(image);
                 final JLabel imageLabel = new JLabel(new ImageIcon(ic.getImage().getScaledInstance(ic.getIconWidth() - 15, ic.getIconWidth() - 15, Image.SCALE_SMOOTH)));
                 this.southPanel.add(imageLabel);

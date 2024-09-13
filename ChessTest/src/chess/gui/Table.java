@@ -15,8 +15,6 @@ import chess.logic.player.Player;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
@@ -101,13 +99,7 @@ public class Table {
 
         final JMenuItem exit = new JMenuItem("Exit");
         fileMenu.add(exit);
-        exit.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e)
-            {
-                System.exit(0);
-            }
-        });
+        exit.addActionListener(e -> System.exit(0));
         return fileMenu;
 
     }
@@ -122,26 +114,17 @@ public class Table {
         final JMenu preferencesMenu = new JMenu("Preferences");
         final JMenuItem boardFlipMenuItem = new JMenuItem("Flip the Board");
         // Menu item for flipping the board
-        boardFlipMenuItem.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e)
-            {
-                boardDirection = boardDirection.opposite();
-                boardPanel.drawBoard(chessBoard);
-            }
+        boardFlipMenuItem.addActionListener(e ->
+        {
+            boardDirection = boardDirection.opposite();
+            boardPanel.drawBoard(chessBoard);
         });
         preferencesMenu.add(boardFlipMenuItem);
 
         preferencesMenu.addSeparator();
         // Checkbox item for toggling highlighting of legal moves
         final JCheckBoxMenuItem highlighterCheckbox = new JCheckBoxMenuItem("Highlight legal moves", false);
-        highlighterCheckbox.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e)
-            {
-                highlightLegals = highlighterCheckbox.isSelected();
-            }
-        });
+        highlighterCheckbox.addActionListener(e -> highlightLegals = highlighterCheckbox.isSelected());
         preferencesMenu.add(highlighterCheckbox);
 
         return preferencesMenu;

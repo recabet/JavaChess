@@ -33,7 +33,7 @@ public enum PieceData {
      */
     Pawn getMovedPawn(final Color color, final int destinationCoordinate)
     {
-        return ALL_POSSIBLE_PAWNS.get(color).get(destinationCoordinate);
+        return ALL_POSSIBLE_PAWNS.get(color).get((Object) destinationCoordinate);
     }
 
     /**
@@ -45,7 +45,7 @@ public enum PieceData {
      */
     Queen getMovedQueen(final Color color, final int destinationCoordinate)
     {
-        return ALL_POSSIBLE_QUEENS.get(color).get(destinationCoordinate);
+        return ALL_POSSIBLE_QUEENS.get(color).get((Object) (destinationCoordinate));
     }
 
     /**
@@ -61,7 +61,7 @@ public enum PieceData {
             Map<Integer, Pawn> innerMap = new HashMap<>();
             for(int i = 0; i < 64; i++)
             {
-                innerMap.put(i, new Pawn(i, color, false));
+                innerMap.put((Integer) i, new Pawn(i, color, false));
             }
             pieces.put(color, innerMap);
         }
@@ -81,7 +81,7 @@ public enum PieceData {
             Map<Integer, Queen> innerMap = new HashMap<>();
             for(int i = 0; i < 64; i++)
             {
-                innerMap.put(i, new Queen(i, color, false));
+                innerMap.put((Integer) i, new Queen(i, color, false));
             }
             pieces.put(color, innerMap);
         }

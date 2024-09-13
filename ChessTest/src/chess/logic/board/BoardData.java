@@ -76,7 +76,7 @@ public class BoardData {
         final Map<String, Integer> positionToCoord = new HashMap<>();
         for(int i = 0; i < 64; i++)
         {
-            positionToCoord.put(ALGEBRAIC_NOTATION[i], i);
+            positionToCoord.put(ALGEBRAIC_NOTATION[i], (Integer) i);
         }
         return Map.copyOf(positionToCoord);
     }

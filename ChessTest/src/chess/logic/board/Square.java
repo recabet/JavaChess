@@ -53,7 +53,7 @@ public abstract class Square {
         Map<Integer, EmptySquare> emptySquareMap = new HashMap<>();
         for(int coord = 0; coord < 64; ++coord)
         {
-            emptySquareMap.put(coord, new EmptySquare(coord));
+            emptySquareMap.put((Integer)coord, new EmptySquare(coord));
 
         }
         return emptySquareMap;
@@ -68,7 +68,7 @@ public abstract class Square {
      */
     public static Square createSquare(final int squareCoord, final Piece piece)
     {
-        return piece != null ? new FullSquare(squareCoord, piece) : ALL_EMPTY_SQUARES.get(squareCoord);
+        return piece != null ? new FullSquare(squareCoord, piece) : ALL_EMPTY_SQUARES.get((Object)squareCoord);
     }
 
     /**

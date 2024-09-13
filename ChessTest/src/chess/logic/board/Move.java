@@ -179,11 +179,10 @@ public abstract class Move {
         {
             return true;
         }
-        if(!(object instanceof Move))
+        if(!(object instanceof Move otherMove))
         {
             return false;
         }
-        final Move otherMove = (Move) object;
         return this.getCurrentCoord() == otherMove.getCurrentCoord() && this.destinationCoord == otherMove.destinationCoord && this.movedPiece.equals(otherMove.movedPiece);
     }
 
@@ -256,8 +255,7 @@ public abstract class Move {
         @Override
         public int hashCode()
         {
-            return Objects.hash(super.hashCode(), decoratedMove, promotedPawn, promotionPiece);
-            //return 0;
+            return Objects.hash((Object)super.hashCode(), decoratedMove, promotedPawn, promotionPiece);
         }
 
         @Override
@@ -433,7 +431,7 @@ public abstract class Move {
         @Override
         public String toString()
         {
-            return BoardData.getPositionAtCoord(this.movedPiece.getPieceCoord()).substring(0, 1) + "x" + BoardData.getPositionAtCoord(this.destinationCoord);
+            return BoardData.getPositionAtCoord(this.movedPiece.getPieceCoord()).charAt(0) + "x" + BoardData.getPositionAtCoord(this.destinationCoord);
         }
     }
 
@@ -527,11 +525,10 @@ public abstract class Move {
             {
                 return true;
             }
-            if(!(object instanceof AttackMove))
+            if(!(object instanceof AttackMove otherAttack))
             {
                 return false;
             }
-            final AttackMove otherAttack = (AttackMove) object;
             return super.equals(otherAttack) && getAttackedPiece().equals(otherAttack.getAttackedPiece());
         }
 

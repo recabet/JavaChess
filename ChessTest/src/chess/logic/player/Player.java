@@ -98,7 +98,7 @@ public abstract class Player {
      */
     public boolean isMated()
     {
-        return this.isInCheck && !hasEscape();
+        return this.isInCheck && hasEscape();
     }
 
     /**
@@ -113,10 +113,10 @@ public abstract class Player {
             final Changer changeMove = makeMove(move);
             if(changeMove.moveSt().isDone())
             {
-                return true;
+                return false;
             }
         }
-        return false;
+        return true;
     }
 
     /**
@@ -147,7 +147,7 @@ public abstract class Player {
      */
     public boolean isStalemate()
     {
-        return !this.isInCheck && !hasEscape();
+        return !this.isInCheck && hasEscape();
     }
 
     /**
