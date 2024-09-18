@@ -34,7 +34,11 @@ To use this Chess Application:
 ```sh
   cd JavaChess/ChessTest/src
 ```
-3. Run Main.java.
+3. Run code (Make sure you have neccessary java dependencies) 
+```
+  make run
+```
+
 
 ## Contributing
 
